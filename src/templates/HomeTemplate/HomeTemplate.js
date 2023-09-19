@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Layout/Header/Header";
 import HomeCarousel from "./Layout/HomeCarousel/HomeCarousel";
+import Footer from "../HomeTemplate/Layout/Footer/Footer";
 
 const HomeTemplate = () => {
   return (
@@ -11,9 +12,7 @@ const HomeTemplate = () => {
       <div>
         <Outlet />
       </div>
-      <footer className="text-bg-dark" style={{ height: "50px" }}>
-        FOOTER
-      </footer>
+      <Footer />
     </>
   );
 };

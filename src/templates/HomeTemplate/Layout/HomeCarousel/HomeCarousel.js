@@ -11,23 +11,39 @@ const HomeCarousel = () => (
   <Carousel effect="fade">
     <div>
       <h3 style={contentStyle}>
-        <img src="https://picsum.photos/1000" className="w-48" alt="" />
+        <img
+          src="https://picsum.photos/1000"
+          className="object-cover h-48 w-96"
+          alt=""
+        />
       </h3>
     </div>
     <div>
       <h3 style={contentStyle}>
-        <img src="https://picsum.photos/1000" className="w-48" alt="" />
+        <img
+          src="https://picsum.photos/1000"
+          className="object-cover h-48 w-96"
+          alt=""
+        />
       </h3>
     </div>
     <div>
       <h3 style={contentStyle}>
         {" "}
-        <img src="https://picsum.photos/100" className="w-48" alt="" />
+        <img
+          src="https://picsum.photos/100"
+          className="object-cover h-48 w-96"
+          alt=""
+        />
       </h3>
     </div>
     <div>
       <h3 style={contentStyle}>
-        <img src="https://picsum.photos/1000" className="w-48" alt="" />
+        <img
+          src="https://picsum.photos/1000"
+          className="object-cover h-48 w-96"
+          alt=""
+        />
       </h3>
     </div>
   </Carousel>

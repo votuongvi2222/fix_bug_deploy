@@ -1,7 +1,8 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Header.scss";
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <header className="p-4 dark:bg-gray-800 dark:text-gray-100 fixed w-full bg-black bg-opacity-10 z-10   text-white">
       <div className="container flex justify-between h-16 mx-auto">
@@ -52,8 +53,20 @@ const Header = () => {
           </li>
         </ul>
         <div className="items-center flex-shrink-0 hidden lg:flex">
-          <button className="self-center px-8 py-3 rounded">Sign in</button>
-          <button className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900">
+          <button
+            onClick={() => {
+              navigate("/login");
+            }}
+            className="self-center px-8 py-3 rounded"
+          >
+            Login
+          </button>
+          <button
+            onClick={() => {
+              navigate("/register");
+            }}
+            className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900"
+          >
             Sign up
           </button>
         </div>
