@@ -7,6 +7,7 @@ import {
   FILM_DANG_CHIEU,
   FILM_SAP_CHIEU,
 } from "../../redux/actions/types/FilmType";
+import { useNavigate } from "react-router-dom";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -32,6 +33,7 @@ function SamplePrevArrow(props) {
 }
 
 const MultipleRows = (props) => {
+  const nagivate = useNavigate();
   const dispatch = useDispatch();
   const { dangChieu, sapChieu } = useSelector(
     (state) => state.ManangerFilmReducer

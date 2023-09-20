@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getListFilmAction } from "../../redux/actions/FilmAction";
 import MultipleRows from "../../component/MutipleRow/MutipleRow";
 import { getListCinemaActions } from "../../redux/actions/CinemaAction";
+import HomeCarousel from "../../templates/HomeTemplate/Layout/HomeCarousel/HomeCarousel";
 
 const Home = () => {
   const listFilm = useSelector((state) => state.ManangerFilmReducer.listFilm);
@@ -15,17 +16,20 @@ const Home = () => {
   }, []);
   // console.log(heThongRapChieu);
   return (
-    <div className="container">
-      <section className="text-gray-600 body-font list-Film">
-        <div className="container px-5 py-24 mx-auto">
-          <MultipleRows listFilm={listFilm} />
-        </div>
-      </section>
+    <>
+      <HomeCarousel />
+      <div className="container">
+        <section className="text-gray-600 body-font list-Film">
+          <div className="container px-5 py-24 mx-auto">
+            <MultipleRows listFilm={listFilm} />
+          </div>
+        </section>
 
-      <div className="mx-36">
-        <HomeMenu heThongRapChieu={heThongRapChieu} />
+        <div className="mx-36">
+          <HomeMenu heThongRapChieu={heThongRapChieu} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

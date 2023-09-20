@@ -1,6 +1,8 @@
 import React from "react";
 import "./Film.scss";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 const Films = (props) => {
+  const nagivate = useNavigate();
   const { film } = props;
   // console.log("film", film);
   const styleContent = {
@@ -56,7 +58,14 @@ const Films = (props) => {
           alt={film.tenPhim}
         />
         <div className="list-Btn">
-          <button className="btn btn-primary mb-2">Đặt vé</button>
+          <button
+            onClick={() => {
+              nagivate(`/detail/${film.maPhim}`);
+            }}
+            className="btn btn-primary mb-2"
+          >
+            Đặt vé
+          </button>
           <button className="btn btn-warning">Trailer</button>
         </div>
       </div>
