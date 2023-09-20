@@ -1,0 +1,9 @@
+.slick-prev:before,
+.slick-next:before {
+    color: gray !important;
+    font-size: 3rem !important;
+}
+
+.item-width {
+    width: 100% !important;
+}

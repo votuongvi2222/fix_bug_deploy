@@ -1,11 +1,10 @@
-import axios from "../../util/axiosCustomize";
+import { getListBanner } from "../../services/MangerFilmServices";
+
 import { SET_CAROUSEL } from "./types/CarouselType";
 export const getBannerAction = () => {
   return async (dispatch, getState) => {
     try {
-      const res = await axios.get(
-        "https://movieapi.cyberlearn.vn/api/QuanLyPhim/LayDanhSachBanner"
-      );
+      const res = await getListBanner();
 
       if (res && res.content.length > 0) {
         dispatch({

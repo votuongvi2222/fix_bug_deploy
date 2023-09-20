@@ -3,13 +3,14 @@ import { Carousel } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBannerAction } from "../../../../redux/actions/CarouselAction";
+import "./HomeCarousel.scss";
 const contentStyle = {
   height: "600px",
   color: "#fff",
   lineHeight: "160px",
   textAlign: "center",
   background: "#364d79",
-  backgroundSize: "100%",
+  backgroundSize: "100% 100%",
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center",
 };
@@ -28,6 +29,7 @@ const HomeCarousel = (prop) => {
           return (
             <div key={`banner-${index}`}>
               <div
+                className="object-fill"
                 style={{
                   ...contentStyle,
                   background: `url(${item.hinhAnh})`,
