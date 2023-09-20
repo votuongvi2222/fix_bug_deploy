@@ -2,8 +2,19 @@
 .slick-next:before {
     color: gray !important;
     font-size: 3rem !important;
+    background-color: transparent !important;
+    /* z-index: 10; */
 }
 
 .item-width {
     width: 100% !important;
+}
+
+.active-btn {
+    background-color: black !important;
+    color: white;
+}
+.none-active-btn {
+    background-color: white;
+    color: black;
 }

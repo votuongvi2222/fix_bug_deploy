@@ -1,0 +1,7 @@
+.item-hour:hover {
+    @apply text-yellow-500 bg-green-700;
+}
+
+.item-hour {
+    @apply border-green-600 rounded-lg font-semibold;
+}

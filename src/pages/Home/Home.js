@@ -3,14 +3,17 @@ import HomeMenu from "./HomeMenu/HomeMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { getListFilmAction } from "../../redux/actions/FilmAction";
 import MultipleRows from "../../component/MutipleRow/MutipleRow";
+import { getListCinemaActions } from "../../redux/actions/CinemaAction";
 
 const Home = () => {
   const listFilm = useSelector((state) => state.ManangerFilmReducer.listFilm);
   const dispatch = useDispatch();
-
+  const { heThongRapChieu } = useSelector((state) => state.ManagerCinema);
   useEffect(() => {
     dispatch(getListFilmAction());
+    dispatch(getListCinemaActions());
   }, []);
+  // console.log(heThongRapChieu);
   return (
     <div className="container">
       <section className="text-gray-600 body-font list-Film">
@@ -20,7 +23,7 @@ const Home = () => {
       </section>
 
       <div className="mx-36">
-        <HomeMenu />
+        <HomeMenu heThongRapChieu={heThongRapChieu} />
       </div>
     </div>
   );

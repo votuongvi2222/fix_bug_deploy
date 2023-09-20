@@ -1,4 +1,8 @@
-import { GET_LIST_FILM } from "../../actions/types/FilmType";
+import {
+  FILM_DANG_CHIEU,
+  FILM_SAP_CHIEU,
+  GET_LIST_FILM,
+} from "../../actions/types/FilmType";
 
 const stateDefault = {
   listFilm: [
@@ -18,13 +22,47 @@ const stateDefault = {
       sapChieu: false,
     },
   ],
+  dangChieu: true,
+  sapChieu: false,
+  arrFilmDefault: [],
 };
 
 export const ManangerFilmReducer = (state = stateDefault, action) => {
   switch (action.type) {
     case GET_LIST_FILM:
-      return { ...state, listFilm: action.listFilm };
+      state.listFilm = action.listFilm;
+      state.arrFilmDefault = state.listFilm;
 
+      return {
+        ...state,
+      };
+
+    case FILM_DANG_CHIEU: {
+      // console.log(action);
+      // console.log(state.listFilm);
+      return {
+        ...state,
+        listFilm: state.arrFilmDefault.filter(
+          (phim) => phim.dangChieu === state.dangChieu
+        ),
+        dangChieu: true,
+        sapChieu: false,
+      };
+    }
+    case FILM_SAP_CHIEU: {
+      // console.log(action);
+      // console.log(state.listFilm);
+      const arrList = [...state.arrFilmDefault];
+      const arrSapChieu = arrList.filter(
+        (phim) => phim.sapChieu === state.sapChieu
+      );
+      return {
+        ...state,
+        listFilm: arrSapChieu,
+        sapChieu: true,
+        dangChieu: false,
+      };
+    }
     default:
       return { ...state };
   }

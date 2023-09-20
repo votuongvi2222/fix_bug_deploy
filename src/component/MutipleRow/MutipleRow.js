@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import Slider from "react-slick";
 import styleContent from "./MutipleRow.module.css";
 import Films from "../Films/Films";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  FILM_DANG_CHIEU,
+  FILM_SAP_CHIEU,
+} from "../../redux/actions/types/FilmType";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -26,36 +31,69 @@ function SamplePrevArrow(props) {
   );
 }
 
-export default class MultipleRows extends Component {
-  renderListFilm = () => {
-    return this.props.listFilm.map((item, index) => {
+const MultipleRows = (props) => {
+  const dispatch = useDispatch();
+  const { dangChieu, sapChieu } = useSelector(
+    (state) => state.ManangerFilmReducer
+  );
+  const renderListFilm = () => {
+    return props.listFilm.slice(0, 12).map((item, index) => {
       return (
         <div className={`${styleContent["item-width"]}`} key={index}>
-          <Films />
+          <Films film={item} />
         </div>
       );
     });
   };
-  render() {
-    const settings = {
-      className: "center slider variable-width",
-      centerMode: true,
-      infinite: true,
-      centerPadding: "60px",
-      slidesToShow: 3,
-      speed: 500,
-      rows: 1,
-      slidesPerRow: 2,
-      variableWidth: true,
-      nextArrow: <SampleNextArrow />,
-      prevArrow: <SamplePrevArrow />,
-    };
 
-    return (
-      <div>
-        <h2>Multiple Rows</h2>
-        <Slider {...settings}>{this.renderListFilm()}</Slider>
+  const settings = {
+    className: "center slider varialbe-width ",
+    centerMode: true,
+    infinite: true,
+    centerPadding: "60px",
+    slidesToShow: 4,
+    speed: 500,
+    rows: 1,
+    dots: false,
+    slidesPerRow: 2,
+    variableWidth: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  };
+  const activeClassDC = dangChieu ? "active-btn" : "none-active-btn";
+  const activeClassSC = sapChieu ? "active-btn" : "none-active-btn";
+  return (
+    <>
+      <div className="listBtn text-center">
+        <button
+          type="button"
+          className={`px-8 mr-2 py-3 font-semibold border rounded ${styleContent[activeClassDC]}`}
+          onClick={() => {
+            dispatch({
+              type: FILM_DANG_CHIEU,
+            });
+          }}
+        >
+          Phim đang chiếu
+        </button>
+
+        <button
+          type="button"
+          className={`px-8 py-3 font-semibold border rounded ${styleContent[activeClassSC]}`}
+          onClick={() => {
+            dispatch({
+              type: FILM_SAP_CHIEU,
+            });
+          }}
+        >
+          Phim sắp chiếu
+        </button>
       </div>
-    );
-  }
-}
+      <div>
+        <Slider {...settings}>{renderListFilm()}</Slider>
+      </div>
+    </>
+  );
+};
+
+export default MultipleRows;
