@@ -107,7 +107,7 @@ const Login = () => {
                 value={edit.taiKhoan}
                 className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
                 name="taiKhoan"
-                placeholder="Nhập vài tài khoản"
+                placeholder="Nhập vào tài khoản"
               />
             </div>
             <div className="mt-8">

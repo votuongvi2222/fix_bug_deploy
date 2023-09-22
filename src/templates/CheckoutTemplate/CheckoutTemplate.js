@@ -14,10 +14,9 @@ const CheckoutTemplate = () => {
   }, [navigate]);
 
   return (
-    <div>
-      CHECK OUT TEMPLATE
+    <>
       <Outlet />
-    </div>
+    </>
   );
 };
 
