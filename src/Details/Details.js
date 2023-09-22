@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { CustomCard } from "@tsamantanis/react-glassmorphism";
 import "@tsamantanis/react-glassmorphism/dist/index.css";
@@ -6,9 +6,13 @@ import "./Details.scss";
 import { Rate, Tabs } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getThongTinPhimAction } from "../redux/actions/CinemaAction";
+import { LoadingOutlined } from "@ant-design/icons";
 import moment from "moment/moment";
 
+import { Spin } from "antd";
+
 const Details = () => {
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const ref = useRef(null);
   const dispatch = useDispatch();
@@ -35,9 +39,22 @@ const Details = () => {
     );
   }, [filmDetail]);
 
+  // LOADING
+  const antIcon = (
+    <LoadingOutlined
+      style={{
+        fontSize: 24,
+      }}
+      spin
+    />
+  );
   // LAY THONG TIN PHIM
   useEffect(() => {
+    setLoading(true);
     dispatch(getThongTinPhimAction(id));
+    setTimeout(() => {
+      setLoading(false);
+    }, [2000]);
   }, []);
 
   return (
@@ -72,7 +89,7 @@ const Details = () => {
     //   </CustomCard>
     // </div>
 
-    <div>
+    <Spin className="w-full h-full" indicator={antIcon} spinning={loading}>
       <div className="movie-card">
         <div className="img-movie">
           <a href="/">
@@ -172,6 +189,7 @@ const Details = () => {
 
                                     <div className="gioChieu grid gap-4 grid-cols-4 pt-3">
                                       {rap.lichChieuPhim?.map((lich, index) => {
+                                        // console.log(lich);
                                         return (
                                           <div
                                             className="col-span-1"
@@ -179,7 +197,7 @@ const Details = () => {
                                           >
                                             <NavLink
                                               className="item-lichChieu"
-                                              to="/"
+                                              to={`/checkout/${lich.maLichChieu}`}
                                             >
                                               {moment(
                                                 lich.ngayChieuGioChieu
@@ -227,7 +245,7 @@ const Details = () => {
           };
         })}
       /> */}
-    </div>
+    </Spin>
   );
 };
 

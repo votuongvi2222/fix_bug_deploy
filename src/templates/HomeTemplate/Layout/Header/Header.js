@@ -55,7 +55,7 @@ const Header = () => {
         <div className="items-center flex-shrink-0 hidden lg:flex">
           <button
             onClick={() => {
-              navigate("/login");
+              navigate("/user/login");
             }}
             className="self-center px-8 py-3 rounded"
           >
@@ -63,7 +63,7 @@ const Header = () => {
           </button>
           <button
             onClick={() => {
-              navigate("/register");
+              navigate("/user/register");
             }}
             className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900"
           >

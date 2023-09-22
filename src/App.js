@@ -7,7 +7,20 @@ import News from "./pages/News/News";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Details from "./Details/Details";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import UserTemplate from "./templates/UserTemplate/UserTemplate";
+import CheckoutTemplate from "./templates/CheckoutTemplate/CheckoutTemplate";
+import Checkout from "./pages/Checkout/Checkout";
 
+// import { Suspense, lazy } from "react";
+// const HomeTemplate = lazy(() =>
+//   import("./templates/HomeTemplate/HomeTemplate")
+// );
+
+// const CheckoutTemplate = lazy(() =>
+//   import("./templates/CheckoutTemplate/CheckoutTemplate")
+// );
 function App() {
   return (
     <div className="App">
@@ -18,10 +31,29 @@ function App() {
           <Route path="news" element={<News />} />
           <Route path="/detail/:id" element={<Details />} />
         </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/user" element={<UserTemplate />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+        </Route>
+
+        <Route path="/checkout" element={<CheckoutTemplate />}>
+          <Route path=":id" element={<Checkout />} />
+        </Route>
+
         <Route path="*" element={<h1>404 NOT FOUND</h1>} />
       </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

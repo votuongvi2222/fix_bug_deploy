@@ -4,11 +4,13 @@ import thunk from "redux-thunk";
 import { CarouselReducer } from "./reducer/CarouselReducer/CarouselReducer";
 import { ManangerFilmReducer } from "./reducer/ManagerFilmReducer.js/ManagerFilmReducer";
 import { ManagerCinema } from "./reducer/ManagerCinema/ManagerCinema";
+import { AuthReducer } from "./reducer/AuthReducer/AuthReducer";
 const rootReducer = combineReducers({
   // State ung dung
   CarouselReducer: CarouselReducer,
   ManangerFilmReducer: ManangerFilmReducer,
   ManagerCinema: ManagerCinema,
+  AuthReducer: AuthReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
