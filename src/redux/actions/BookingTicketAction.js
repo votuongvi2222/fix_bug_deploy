@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
-import { getListPhongVe } from "../../services/BookingService";
-import { GET_LIST_PHONG_VE } from "./types/TicketType";
+import { getListPhongVe, postDatVe } from "../../services/BookingService";
+import { DAT_VE, GET_LIST_PHONG_VE } from "./types/TicketType";
+import { ThongTinDatVe } from "../../_core/models/ThongTinDatVe";
 
 export const getListPhongVeAction = (maPhongVe) => {
   return async (dispatch, getState) => {
@@ -17,5 +18,23 @@ export const getListPhongVeAction = (maPhongVe) => {
     } catch (error) {
       console.log("ERR", error);
     }
+  };
+};
+
+export const postDatVeAction = (thongTinDatVe = new ThongTinDatVe()) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await postDatVe(thongTinDatVe);
+      console.log(res);
+      if (res && res.statusCode === 200) {
+        dispatch({
+          type: DAT_VE,
+          thongTinDatVe: thongTinDatVe,
+        });
+        toast.success(res.content);
+      } else {
+        toast.error(res.content);
+      }
+    } catch (error) {}
   };
 };

@@ -1,13 +1,36 @@
 import { ThongTinPhongVe } from "../../../_core/models/ThongTinPhongVe";
-import { GET_LIST_PHONG_VE } from "../../actions/types/TicketType";
+import {
+  CHON_VE,
+  DAT_VE,
+  GET_LIST_PHONG_VE,
+} from "../../actions/types/TicketType";
 
 const stateDefault = {
   heThongPhongVe: new ThongTinPhongVe(),
+  danhSachVeDangDat: [],
+  thongTinDatve: {},
 };
 export const BookingTicketReducer = (state = stateDefault, action) => {
   switch (action.type) {
     case GET_LIST_PHONG_VE:
       return { ...state, heThongPhongVe: action.heThongPhongVe };
+    case CHON_VE: {
+      const danhSachGheCapNhat = [...state.danhSachVeDangDat];
+
+      const index = danhSachGheCapNhat.findIndex(
+        (item) => item.maGhe === action.Ghe.maGhe
+      );
+      if (index !== -1) {
+        danhSachGheCapNhat.splice(index, 1);
+      } else {
+        danhSachGheCapNhat.push(action.Ghe);
+      }
+      return { ...state, danhSachVeDangDat: danhSachGheCapNhat };
+    }
+    case DAT_VE: {
+      console.log(action);
+      return { ...state, thongTinDatve: action.thongTinDatve };
+    }
     default:
       return { ...state };
   }
