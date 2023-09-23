@@ -8,8 +8,6 @@ export const postRegister = (taiKhoan, matKhau, email, soDt, maNhom, hoTen) => {
       matKhau,
       email,
       soDt,
-      maNhom,
-      hoTen,
     }
   );
 };

@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import {
+  NavLink,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { postLoginAction } from "../../redux/actions/AuthAction";
 import { DANG_NHAP_THANH_CONG } from "../../redux/actions/types/AuthType";
 import { toast } from "react-toastify";
@@ -13,6 +18,9 @@ const Login = () => {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const location = useLocation();
+
   const { user } = useSelector((state) => state.AuthReducer);
 
   const handleChange = (e) => {
@@ -35,6 +43,10 @@ const Login = () => {
         userLogin: res.content,
         login: true,
       });
+      if (location && location?.state?.isRegister) {
+        navigate(-1);
+        navigate(-1);
+      }
       navigate(-1);
     } else {
       toast.error(res.content);

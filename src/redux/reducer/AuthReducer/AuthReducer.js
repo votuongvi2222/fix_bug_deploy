@@ -20,7 +20,6 @@ export const AuthReducer = (state = stateDefault, action) => {
     case REGISTER:
       return {
         ...state,
-        user: action.dataUser,
       };
     case DANG_NHAP_THANH_CONG:
       localStorage.setItem(USER_LOGIN, JSON.stringify(action.userLogin));

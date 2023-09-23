@@ -1,33 +1,52 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { Fragment, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./Checkout.css";
+import { useParams } from "react-router-dom";
+import { getListPhongVeAction } from "../../redux/actions/BookingTicketAction";
 const Checkout = () => {
   const userLogin = useSelector((state) => state.AuthReducer.user);
-  console.log(userLogin);
+
+  const { heThongPhongVe } = useSelector((state) => state.BookingTicketReducer);
+
+  console.log(heThongPhongVe);
+  const param = useParams();
+  const dispatch = useDispatch();
+  const { id } = param;
+  useEffect(() => {
+    dispatch(getListPhongVeAction(id));
+  }, []);
+  const { thongTinPhim, danhSachGhe } = heThongPhongVe;
   return (
     <div className="Checkout w-screen">
-      <div className="Checkout-content flex h-screen">
-        <div className="datGhe w-3/4">
-          <div className="container" style={{ width: "75%" }}>
+      <div className="Checkout-content">
+        <div className="datGhe">
+          <div className="container1">
             <div className="screen"></div>
-            <div className="row">
-              <div className="seat"></div>
-              <div className="seat"></div>
-              <div className="seat"></div>
-              <div className="seat"></div>
-              <div className="seat"></div>
-              <div className="seat"></div>
-              <div className="seat"></div>
-              <div className="seat"></div>
+            <div className="danhSachGhe ">
+              {danhSachGhe.map((ghe, index) => {
+                const styleGheVip = ghe.loaiGhe === "Vip" ? "seat-vip" : "seat";
+                const styleGheDaDat = ghe.daDat === true ? "seat-disable" : "";
+                return (
+                  <Fragment key={index}>
+                    <button
+                      disabled={ghe.daDat}
+                      className={`${styleGheVip} ${styleGheDaDat} mb-2 ml-2 mr-3`}
+                    >
+                      {ghe.stt}
+                    </button>
+                    {(index + 1) % 18 === 0 ? <br /> : ""}
+                  </Fragment>
+                );
+              })}
             </div>
           </div>
         </div>
-        <div className="muaVe w-1/4 flex flex-col justify-between border-solid border-3 border-sky-500 p-3">
+        <div className="muaVe flex flex-col justify-between border-solid border-3 border-sky-500">
           <div className="info-Ve ">
             <p className="total border-b-2 border-gray-400 py-3">0 $</p>
             <div className="info-content border-b-2 border-gray-400 py-3">
-              <b className="tenPhim">Spider MAN 2023</b>
-              <p className="diaChi">Dia diem : BHD-Star - Vincom 3/2 </p>
+              <b className="tenPhim">{thongTinPhim.tenPhim}</b>
+              <p className="diaChi">{thongTinPhim.diaChi}</p>
               <p className="ngayChieu">Ngay chieu : 25/04/2023 - 12:05 Rap 5</p>
             </div>
             <div className="flex justify-between border-b-2 border-gray-400 py-3">

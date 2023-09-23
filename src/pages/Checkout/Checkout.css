@@ -10,16 +10,13 @@
     box-sizing: border-box;
 }
 
-body {
+.Checkout-content {
     font-family: "Lato", sans-serif;
     background-color: #242333;
     color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    overflow: hidden;
+    position: relative;
+    /* height: 100vh; */
+    /* overflow: hidden; */
 }
 
 .movie-container {
@@ -38,7 +35,7 @@ body {
     appearance: none;
 }
 
-.container {
+.container1 {
     perspective: 1000px;
     margin-bottom: 3px;
 }
@@ -46,8 +43,48 @@ body {
 .screen {
     background-color: #fff;
     height: 70px;
-    width: 100%;
-    margin: 15px 0;
-    transform: rotateX(-45deg);
+    width: 75%;
+    margin: auto;
+    margin-top: 15px;
+    /* transform:; */
     box-shadow: 0 3px 10px rgba(255, 255, 255, 0.7);
+
+    transform: rotateX(-45deg);
+    margin-bottom: 100px;
+}
+
+.seat {
+    background-color: #444451;
+    height: 35px;
+    width: 35px;
+    margin: 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.seat-vip {
+    background-color: #e74c3c;
+    height: 35px;
+    width: 35px;
+    margin: 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.seat-disable {
+    background-color: #2ecc71 !important;
+    cursor: no-drop !important;
+}
+.Checkout-content {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+.datGhe {
+    grid-column: 1/6;
+}
+.muaVe {
+    grid-column: 6/8;
+}
+
+.danhSachGhe {
+    text-align: center;
 }

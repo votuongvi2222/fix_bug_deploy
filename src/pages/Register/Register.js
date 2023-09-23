@@ -1,57 +1,65 @@
 import { Form, Input, Button, Checkbox, Typography, Space } from "antd";
-import {
-  EyeOutlined,
-  EyeInvisibleOutlined,
-  UserOutlined,
-  LockOutlined,
-  MailOutlined,
-  BackwardOutlined,
-  PhoneOutlined,
-} from "@ant-design/icons";
+
 import { NavLink, useNavigate } from "react-router-dom";
 // import "./Register.scss";
 import { useState } from "react";
-import { postRegister } from "../../services/apiServices";
+
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { postRegisterAction } from "../../redux/actions/AuthAction";
+
+import axios from "../../util/axiosCustomize";
+import { REGISTER } from "../../redux/actions/types/AuthType";
+import { postRegister } from "../../services/AuthServices";
 const Register = () => {
   const [edit, setEdit] = useState({
     email: "",
     taiKhoan: "",
     matKhau: "",
     soDt: "",
-    hoTen: "",
     maNhom: "GP00",
+    hoTen: "string",
   });
   const dispatch = useDispatch();
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const navigate = useNavigate();
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+  const nagivate = useNavigate();
 
-  const { Text, Link } = Typography;
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEdit({
       ...edit,
       [name]: value,
     });
-    console.log(edit);
+    // console.log(edit);
   };
 
-  const onRegister = async () => {
-    dispatch(
-      postRegisterAction(
-        edit.taiKhoan,
-        edit.matKhau,
-        edit.email,
-        edit.soDt,
-        edit.maNhom,
-        edit.hoTen
-      )
+  const onRegister = async (e) => {
+    const res = await axios.post(
+      "https://movieapi.cyberlearn.vn/api/QuanLyNguoiDung/DangKy",
+      {
+        taiKhoan: edit.taiKhoan,
+        email: edit.email,
+        matKhau: edit.matKhau,
+        soDt: edit.soDt,
+        maNhom: edit.maNhom,
+        hoTen: edit.hoTen,
+      }
     );
+    // console.log(res);
+    if (res.statusCode === 200) {
+      console.log(res);
+      toast.success("Đăng ký thành công");
+      dispatch({
+        type: REGISTER,
+        dataUser: res.content,
+      });
+      nagivate("/user/login", {
+        state: {
+          isRegister: true,
+        },
+      });
+    } else {
+      console.log(res);
+      toast.error(res.content);
+    }
   };
   // const clickBackHome = () => {
   //   navigate("/");
@@ -94,66 +102,95 @@ const Register = () => {
               </svg>
             </div>
             <div className="text-2xl text-indigo-800 tracking-wide ml-2 font-semibold">
-              blockify
+              MOVIE
             </div>
           </div>
         </div>
-        <div className="mt-10 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-16 xl:px-24 xl:max-w-2xl">
+        <div className="mt-0 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-16 xl:px-24 xl:max-w-2xl">
           <h2
             className="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl
     xl:text-bold"
           >
-            SIGN UP
+            Đăng ký
           </h2>
-          <div className="mt-12">
-            <form>
+          <div className="mt-6">
+            <div>
               <div>
                 <div className="text-sm font-bold text-gray-700 tracking-wide">
-                  Email Address
+                  Tên tài khoản
                 </div>
                 <input
                   className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                  type
-                  placeholder="mike@gmail.com"
+                  type="text"
+                  required
+                  name="taiKhoan"
+                  onChange={handleChange}
+                  placeholder="Nhập tên tài khoản"
                 />
               </div>
-              <div className="mt-8">
+              <div className="mt-6">
                 <div className="flex justify-between items-center">
                   <div className="text-sm font-bold text-gray-700 tracking-wide">
-                    Password
-                  </div>
-                  <div>
-                    <a
-                      className="text-xs font-display font-semibold text-indigo-600 hover:text-indigo-800
-                        cursor-pointer"
-                    >
-                      Forgot Password?
-                    </a>
+                    Mật khẩu
                   </div>
                 </div>
                 <input
                   className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
-                  type
-                  placeholder="Enter your password"
+                  type="password"
+                  placeholder="Nhập vào mật khẩu"
+                  required
+                  name="matKhau"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mt-6">
+                <div className="flex justify-between items-center">
+                  <div className="text-sm font-bold text-gray-700 tracking-wide">
+                    Email
+                  </div>
+                </div>
+                <input
+                  className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+                  type="text"
+                  placeholder="Nhập vào email"
+                  required
+                  name="email"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mt-6">
+                <div className="flex justify-between items-center">
+                  <div className="text-sm font-bold text-gray-700 tracking-wide">
+                    Số điện thoại
+                  </div>
+                </div>
+                <input
+                  className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+                  type="tel"
+                  placeholder="Nhập vào số điện thoại"
+                  required
+                  name="soDt"
+                  onChange={handleChange}
                 />
               </div>
               <div className="mt-10">
                 <button
+                  onClick={onRegister}
                   className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
                 font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
                 shadow-lg"
                 >
-                  Log In
+                  Đăng ký
                 </button>
               </div>
-            </form>
-            <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
-              Don't have an account ?{" "}
+            </div>
+            <div className="mt-8 text-sm font-display font-semibold text-gray-700 text-center">
+              Bạn đã có tài khoản rồi ?{" "}
               <NavLink
                 to="/user/login"
                 className="cursor-pointer text-indigo-600 hover:text-indigo-800"
               >
-                Sign in
+                Đăng nhập
               </NavLink>
             </div>
           </div>

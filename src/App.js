@@ -13,14 +13,6 @@ import UserTemplate from "./templates/UserTemplate/UserTemplate";
 import CheckoutTemplate from "./templates/CheckoutTemplate/CheckoutTemplate";
 import Checkout from "./pages/Checkout/Checkout";
 
-// import { Suspense, lazy } from "react";
-// const HomeTemplate = lazy(() =>
-//   import("./templates/HomeTemplate/HomeTemplate")
-// );
-
-// const CheckoutTemplate = lazy(() =>
-//   import("./templates/CheckoutTemplate/CheckoutTemplate")
-// );
 function App() {
   return (
     <div className="App">
