@@ -3,12 +3,14 @@ import {
   CHON_VE,
   DAT_VE,
   GET_LIST_PHONG_VE,
+  THONG_TIN_DAT_VE,
 } from "../../actions/types/TicketType";
 
 const stateDefault = {
   heThongPhongVe: new ThongTinPhongVe(),
   danhSachVeDangDat: [],
   thongTinDatve: {},
+  thongTinNguoiDung: {},
 };
 export const BookingTicketReducer = (state = stateDefault, action) => {
   switch (action.type) {
@@ -28,9 +30,13 @@ export const BookingTicketReducer = (state = stateDefault, action) => {
       return { ...state, danhSachVeDangDat: danhSachGheCapNhat };
     }
     case DAT_VE: {
-      console.log(action);
+      // console.log(action);
       return { ...state, thongTinDatve: action.thongTinDatve };
     }
+    case THONG_TIN_DAT_VE: {
+      return { ...state, thongTinNguoiDung: action.data };
+    }
+
     default:
       return { ...state };
   }

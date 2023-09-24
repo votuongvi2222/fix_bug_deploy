@@ -133,3 +133,24 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
+.seatDangDatTable {
+    background-color: rgba(219, 219, 53, 0.667);
+    height: 35px;
+    width: 35px;
+    margin: auto;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* ANT */
+.ant-tabs > .ant-tabs-nav,
+.ant-tabs > div > .ant-tabs-nav {
+    margin: 0;
+    background-color: #242333;
+    color: white;
+    padding-left: 10px;
+}
+
+.ant-tabs-top > .ant-tabs-nav::before {
+    border: none;
+}

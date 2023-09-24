@@ -13,3 +13,9 @@ export const postDatVe = (thongTinDatVe = new ThongTinDatVe()) => {
     thongTinDatVe
   );
 };
+
+export const postThongTinNguoiDung = () => {
+  return axios.post(
+    "https://movieapi.cyberlearn.vn/api/QuanLyNguoiDung/ThongTinTaiKhoan"
+  );
+};

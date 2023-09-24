@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import UserTemplate from "./templates/UserTemplate/UserTemplate";
 import CheckoutTemplate from "./templates/CheckoutTemplate/CheckoutTemplate";
 import Checkout from "./pages/Checkout/Checkout";
+import KetQuaCheckOut from "./pages/Checkout/KetQuaCheckOut";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
 
         <Route path="/checkout" element={<CheckoutTemplate />}>
           <Route path=":id" element={<Checkout />} />
+          <Route path="result" element={<KetQuaCheckOut />} />
         </Route>
 
         <Route path="*" element={<h1>404 NOT FOUND</h1>} />
