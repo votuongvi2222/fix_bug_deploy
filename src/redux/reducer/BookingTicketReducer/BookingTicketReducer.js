@@ -1,6 +1,7 @@
 import { ThongTinPhongVe } from "../../../_core/models/ThongTinPhongVe";
 import {
   CHON_VE,
+  CLEAR_VE_DANG_DAT,
   DAT_VE,
   GET_LIST_PHONG_VE,
   THONG_TIN_DAT_VE,
@@ -11,6 +12,7 @@ const stateDefault = {
   danhSachVeDangDat: [],
   thongTinDatve: {},
   thongTinNguoiDung: {},
+  danhSachVeKHDangDat: [{ maGhe: 48857 }, { maGhe: 48858 }],
 };
 export const BookingTicketReducer = (state = stateDefault, action) => {
   switch (action.type) {
@@ -35,6 +37,9 @@ export const BookingTicketReducer = (state = stateDefault, action) => {
     }
     case THONG_TIN_DAT_VE: {
       return { ...state, thongTinNguoiDung: action.data };
+    }
+    case CLEAR_VE_DANG_DAT: {
+      return { ...state, danhSachVeDangDat: [] };
     }
 
     default:

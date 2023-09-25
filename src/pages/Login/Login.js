@@ -23,6 +23,7 @@ const Login = () => {
 
   const { user } = useSelector((state) => state.AuthReducer);
 
+  const { isLoading } = useSelector((state) => state.LoadingReducer);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEdit({
@@ -36,8 +37,6 @@ const Login = () => {
 
     const res = await postLogin(edit.taiKhoan, edit.matKhau);
     if (res.statusCode === 200) {
-      toast.success("Đăng nhập thành công");
-
       dispatch({
         type: DANG_NHAP_THANH_CONG,
         userLogin: res.content,
@@ -46,6 +45,9 @@ const Login = () => {
       if (location && location?.state?.isRegister) {
         navigate(-1);
         navigate(-1);
+        if (isLoading === true) {
+          toast.success("Đăng nhập thành công");
+        }
       }
       navigate(-1);
     } else {

@@ -10,10 +10,15 @@ import {
   THONG_TIN_DAT_VE,
 } from "./types/TicketType";
 import { ThongTinDatVe } from "../../_core/models/ThongTinDatVe";
+import { DIS_LOADING, LOADING } from "./types/LoadingType";
+import { type } from "@testing-library/user-event/dist/type";
 
 export const getListPhongVeAction = (maPhongVe) => {
   return async (dispatch, getState) => {
     try {
+      dispatch({
+        type: LOADING,
+      });
       const res = await getListPhongVe(maPhongVe);
       if (res.statusCode === 200 && res) {
         dispatch({
@@ -23,7 +28,16 @@ export const getListPhongVeAction = (maPhongVe) => {
       } else {
         console.log(res.content);
       }
+      dispatch({
+        type: DIS_LOADING,
+      });
+      // setTimeout(() => {
+
+      // }, [1200]);
     } catch (error) {
+      dispatch({
+        type: DIS_LOADING,
+      });
       console.log("ERR", error);
     }
   };
@@ -32,31 +46,66 @@ export const getListPhongVeAction = (maPhongVe) => {
 export const postDatVeAction = (thongTinDatVe = new ThongTinDatVe()) => {
   return async (dispatch, getState) => {
     try {
-      const res = await postDatVe(thongTinDatVe);
-      console.log(res);
-      if (res && res.statusCode === 200) {
+      // NEU CO THONG TIN DAT VE MOI LOAD
+      if (thongTinDatVe.danhSachVe?.length > 0) {
         dispatch({
+          type: LOADING,
+        });
+      }
+      const res = await postDatVe(thongTinDatVe);
+      // console.log(res);
+      // NEU CO THONG TIN DAT VE MOI CHAY
+      if (
+        thongTinDatVe.danhSachVe?.length > 0 &&
+        res &&
+        res.statusCode === 200
+      ) {
+        await dispatch({
           type: DAT_VE,
           thongTinDatVe: thongTinDatVe,
         });
-        toast.success(res.content);
+        if (thongTinDatVe.danhSachVe?.length > 0) {
+          dispatch(postThongTinNguoiDungAction());
+          setTimeout(() => {
+            dispatch({
+              type: DIS_LOADING,
+            });
+          }, [3000]);
+
+          await toast.success(res.content);
+        }
       } else {
-        toast.error(res.content);
+        // dispatch(DIS_LOADING);
+        toast.error("Bạn chưa chọn chỗ");
       }
-    } catch (error) {}
+
+      // NEU CO THONG TIN DAT VE MOI LOAD
+    } catch (error) {
+      dispatch(DIS_LOADING);
+    }
   };
 };
 
 export const postThongTinNguoiDungAction = () => {
   return async (dispatch, getState) => {
     try {
+      dispatch({
+        type: LOADING,
+      });
+
       const res = await postThongTinNguoiDung();
+
       if (res.statusCode === 200) {
-        dispatch({
-          type: THONG_TIN_DAT_VE,
-          data: res.content,
-        });
+        setTimeout(() => {
+          dispatch({
+            type: THONG_TIN_DAT_VE,
+            data: res.content,
+          });
+        }, [500]);
       }
+      dispatch({
+        type: DIS_LOADING,
+      });
     } catch (error) {
       console.log("error", error);
     }

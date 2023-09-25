@@ -15,6 +15,7 @@ const Home = () => {
     dispatch(getListCinemaActions());
   }, []);
   // console.log(heThongRapChieu);
+
   return (
     <>
       <HomeCarousel />

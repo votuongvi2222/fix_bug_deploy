@@ -13,10 +13,12 @@ import UserTemplate from "./templates/UserTemplate/UserTemplate";
 import CheckoutTemplate from "./templates/CheckoutTemplate/CheckoutTemplate";
 import Checkout from "./pages/Checkout/Checkout";
 import KetQuaCheckOut from "./pages/Checkout/KetQuaCheckOut";
+import Loading from "./pages/Loading/Loading";
 
 function App() {
   return (
     <div className="App">
+      <Loading />
       <Routes>
         <Route path="/" element={<HomeTemplate />}>
           <Route index element={<Home />} />

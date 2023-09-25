@@ -4,6 +4,7 @@ import {
 } from "../../services/ManagerCinemaService";
 import { GET_THONG_TIN_PHIM } from "../../types/configType";
 import { GET_LIST_CINEMA } from "./types/CinemaType";
+import { DIS_LOADING, LOADING } from "./types/LoadingType";
 
 export const getListCinemaActions = () => {
   return async (dispatch, getState) => {
@@ -24,6 +25,9 @@ export const getListCinemaActions = () => {
 export const getThongTinPhimAction = (id) => {
   return async (dispatch, getState) => {
     try {
+      dispatch({
+        type: LOADING,
+      });
       const res = await getThongTinPhim(id);
       if (res && res.statusCode === 200) {
         // console.log(res);
@@ -32,6 +36,12 @@ export const getThongTinPhimAction = (id) => {
           filmDetail: res.content,
         });
       }
+
+      setTimeout(() => {
+        dispatch({
+          type: DIS_LOADING,
+        });
+      }, [2000]);
     } catch (error) {}
   };
 };

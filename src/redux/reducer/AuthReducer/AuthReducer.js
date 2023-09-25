@@ -13,6 +13,7 @@ if (localStorage.getItem(USER_LOGIN)) {
 }
 const stateDefault = {
   user: userDangNhap,
+  soDT: null,
 };
 
 export const AuthReducer = (state = stateDefault, action) => {
@@ -20,6 +21,7 @@ export const AuthReducer = (state = stateDefault, action) => {
     case REGISTER:
       return {
         ...state,
+        soDT: action.dataUser.soDt,
       };
     case DANG_NHAP_THANH_CONG:
       localStorage.setItem(USER_LOGIN, JSON.stringify(action.userLogin));

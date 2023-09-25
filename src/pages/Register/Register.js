@@ -26,7 +26,7 @@ const Register = () => {
     const { name, value } = e.target;
     setEdit({
       ...edit,
-      [name]: value,
+      [name]: name === "soDt" ? parseInt(value) : value,
     });
     // console.log(edit);
   };

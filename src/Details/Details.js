@@ -40,14 +40,7 @@ const Details = () => {
   }, [filmDetail]);
 
   // LOADING
-  const antIcon = (
-    <LoadingOutlined
-      style={{
-        fontSize: 24,
-      }}
-      spin
-    />
-  );
+
   // LAY THONG TIN PHIM
   useEffect(() => {
     setLoading(true);
@@ -89,7 +82,7 @@ const Details = () => {
     //   </CustomCard>
     // </div>
 
-    <Spin className="w-full h-full" indicator={antIcon} spinning={loading}>
+    <>
       <div className="movie-card">
         <div className="img-movie">
           <a href="/">
@@ -231,21 +224,7 @@ const Details = () => {
           return content;
         })}
       />
-      {/* <Tabs
-        style={{ width: "80%", margin: "auto" }}
-        tabPosition={"left"}
-        items={filmDetail.heThongRapChieu?.map((item, index) => {
-          const id = String(index + 1);
-          return {
-            label: (
-              <img src={item.logo} style={{ width: 50, height: 50 }} alt="" />
-            ),
-            key: id,
-            children: `Content of Tab ${id}`,
-          };
-        })}
-      /> */}
-    </Spin>
+    </>
   );
 };
 

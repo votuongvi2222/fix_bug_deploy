@@ -6,6 +6,7 @@ import { ManangerFilmReducer } from "./reducer/ManagerFilmReducer.js/ManagerFilm
 import { ManagerCinema } from "./reducer/ManagerCinema/ManagerCinema";
 import { AuthReducer } from "./reducer/AuthReducer/AuthReducer";
 import { BookingTicketReducer } from "./reducer/BookingTicketReducer/BookingTicketReducer";
+import { LoadingReducer } from "./reducer/LoadingReducer/LoadingReducer";
 const rootReducer = combineReducers({
   // State ung dung
   CarouselReducer: CarouselReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   ManagerCinema: ManagerCinema,
   AuthReducer: AuthReducer,
   BookingTicketReducer: BookingTicketReducer,
+  LoadingReducer: LoadingReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
