@@ -4,6 +4,10 @@
         "Contact": "接触",
         "News": "消息"
     },
+    "body": {
+        "DangChieu": "电影正在上映",
+        "SapChieu": "电影即将上映"
+    },
     "Sign in": "登入",
     "Sign up": "报名"
 }

@@ -18,6 +18,7 @@ import moment from "moment/moment";
 import { Tabs } from "antd";
 import KetQuaCheckOut from "./KetQuaCheckOut";
 import { useState } from "react";
+import CountdownTime from "./CoundownTime";
 const Checkout = () => {
   const navigate = useNavigate();
   const userLogin = useSelector((state) => state.AuthReducer.user);
@@ -46,6 +47,7 @@ const Checkout = () => {
   // console.log("DANG CHON", danhSachVeDangDat);
 
   // LICH SU DAT VE thongTinNguoiDung
+  // console.log("param.id", id);
   return (
     <>
       <Tabs
@@ -66,6 +68,7 @@ const Checkout = () => {
                 <>
                   {/* CHECKOUt */}
                   <div className="Checkout w-screen">
+                    <CountdownTime param={param.id} />
                     <div className="Checkout-content">
                       <div className="datGhe">
                         <div className="container1">
@@ -90,7 +93,9 @@ const Checkout = () => {
                               }
 
                               let styleGheMinhDat = "";
-                              if (userLogin.taiKhoan === ghe.taiKhoanNguoiDat) {
+                              if (
+                                userLogin?.taiKhoan === ghe.taiKhoanNguoiDat
+                              ) {
                                 styleGheMinhDat = "gheMinhDat";
                               }
 
@@ -182,7 +187,7 @@ const Checkout = () => {
                           </div>
                           <div className="email-customer border-b-2 border-gray-400 py-3">
                             <p className="text-white">E-mail</p>
-                            <p className="text-white">{userLogin.email}</p>
+                            <p className="text-white">{userLogin?.email}</p>
                           </div>
                           <div className="phone-customer border-b-2 border-gray-400 py-3">
                             <p className="text-white">Phone</p>

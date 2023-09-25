@@ -4,6 +4,10 @@
         "Contact": "Liên hệ",
         "News": "Tin tức"
     },
+    "body": {
+        "DangChieu": "Phim đang chiếu",
+        "SapChieu": "Phim sắp chiếu"
+    },
     "Sign in": "Đăng nhập",
     "Sign up": "Đăng ký"
 }

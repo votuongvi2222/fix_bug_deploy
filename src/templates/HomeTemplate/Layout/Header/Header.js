@@ -3,6 +3,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Select, Space } from "antd";
 import { useTranslation } from "react-i18next";
 import "./Header.scss";
+import { useSelector } from "react-redux";
+import _ from "lodash";
+import Profile from "../Profile/Profile";
 const Header = () => {
   // HOOK DA NGON NGU
   const { t, i18n } = useTranslation();
@@ -10,6 +13,36 @@ const Header = () => {
     i18n.changeLanguage(value);
   };
 
+  // LAY USER DANG NHAP
+  const userLOGIN = useSelector((state) => state.AuthReducer.user);
+
+  console.log(userLOGIN);
+  const renderCustomer = () => {
+    if (_.isEmpty(userLOGIN)) {
+      return (
+        <>
+          <button
+            onClick={() => {
+              navigate("/user/login");
+            }}
+            className="self-center px-8 py-3 rounded"
+          >
+            {t("Sign in")}
+          </button>
+          <button
+            onClick={() => {
+              navigate("/user/register");
+            }}
+            className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900"
+          >
+            {t("Sign up")}
+          </button>
+        </>
+      );
+    } else {
+      return <Profile />;
+    }
+  };
   const navigate = useNavigate();
   return (
     <header className="p-4 dark:bg-gray-800 dark:text-gray-100 fixed w-full bg-black bg-opacity-10 z-10   text-white">
@@ -61,22 +94,7 @@ const Header = () => {
           </li>
         </ul>
         <div className="items-center flex-shrink-0 hidden lg:flex">
-          <button
-            onClick={() => {
-              navigate("/user/login");
-            }}
-            className="self-center px-8 py-3 rounded"
-          >
-            {t("Sign in")}
-          </button>
-          <button
-            onClick={() => {
-              navigate("/user/register");
-            }}
-            className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900"
-          >
-            {t("Sign up")}
-          </button>
+          {renderCustomer()}
           <div className="ml-2">
             <Select
               defaultValue="vi"

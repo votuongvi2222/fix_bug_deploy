@@ -10,6 +10,9 @@
     box-sizing: border-box;
 }
 
+.Checkout {
+    background-color: #242333;
+}
 .Checkout-content {
     font-family: "Lato", sans-serif;
     background-color: #242333;

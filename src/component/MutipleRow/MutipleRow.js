@@ -9,6 +9,8 @@ import {
 } from "../../redux/actions/types/FilmType";
 import { useNavigate } from "react-router-dom";
 
+import { useTranslation } from "react-i18next";
+
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
 
@@ -33,6 +35,8 @@ function SamplePrevArrow(props) {
 }
 
 const MultipleRows = (props) => {
+  // HOOK ĐA NGÔN NGỮ
+  const { t, i18n } = useTranslation();
   const nagivate = useNavigate();
   const dispatch = useDispatch();
   const { dangChieu, sapChieu } = useSelector(
@@ -76,7 +80,7 @@ const MultipleRows = (props) => {
             });
           }}
         >
-          Phim đang chiếu
+          {t("body.DangChieu")}
         </button>
 
         <button
@@ -88,7 +92,7 @@ const MultipleRows = (props) => {
             });
           }}
         >
-          Phim sắp chiếu
+          {t("body.SapChieu")}
         </button>
       </div>
       <div>

@@ -4,6 +4,10 @@
         "Contact": "Contact",
         "News": "News"
     },
+    "body": {
+        "DangChieu": "Movie is showing",
+        "SapChieu": "Movie coming soon"
+    },
     "Sign in": "Sign in",
     "Sign up": "Sign up"
 }

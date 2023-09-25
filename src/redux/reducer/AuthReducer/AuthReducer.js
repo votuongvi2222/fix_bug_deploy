@@ -3,6 +3,7 @@ import { USER_LOGIN } from "../../../types/configType";
 import {
   DANG_NHAP_THANH_CONG,
   DANG_NHAP_THAT_BAI,
+  DANG_XUAT,
   LOGIN,
   REGISTER,
 } from "../../actions/types/AuthType";
@@ -33,7 +34,14 @@ export const AuthReducer = (state = stateDefault, action) => {
         ...state,
         user: action.userLogin,
       };
+    case DANG_XUAT:
+      localStorage.removeItem("USER_LOGIN");
+      localStorage.removeItem("accessToken");
 
+      return {
+        ...state,
+        user: {},
+      };
     default:
       return { ...state };
   }
