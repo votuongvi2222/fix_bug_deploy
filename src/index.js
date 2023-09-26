@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./redux/configStore";
 import { BrowserRouter } from "react-router-dom";
-
+import "reactjs-popup/dist/index.css";
 import "./index.css";
 import "./i18n";
 const root = ReactDOM.createRoot(document.getElementById("root"));

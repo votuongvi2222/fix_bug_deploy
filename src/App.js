@@ -14,6 +14,7 @@ import CheckoutTemplate from "./templates/CheckoutTemplate/CheckoutTemplate";
 import Checkout from "./pages/Checkout/Checkout";
 import KetQuaCheckOut from "./pages/Checkout/KetQuaCheckOut";
 import Loading from "./pages/Loading/Loading";
+import AdminTemplate from "./templates/AdminTemplate/AdminTemplate";
 
 function App() {
   return (
@@ -35,6 +36,8 @@ function App() {
           <Route path=":id" element={<Checkout />} />
           <Route path="result" element={<KetQuaCheckOut />} />
         </Route>
+
+        <Route path="/admin" element={<AdminTemplate />}></Route>
 
         <Route path="*" element={<h1>404 NOT FOUND</h1>} />
       </Routes>

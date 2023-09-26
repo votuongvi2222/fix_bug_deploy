@@ -19,6 +19,9 @@ const Details = () => {
   const { filmDetail } = useSelector((state) => state.ManagerCinema);
   // console.log(filmDetail);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const arrKhongCoLich = [1];
   const arrTab = ["Lịch Chiếu", "Thông Tin", "Đánh Giá"];
   // console.log(filmDetail.danhGia / 2);

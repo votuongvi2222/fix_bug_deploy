@@ -7,7 +7,12 @@ import {
   postDatVeAction,
   postThongTinNguoiDungAction,
 } from "../../redux/actions/BookingTicketAction";
-import { CloseOutlined, UserOutlined, CheckOutlined } from "@ant-design/icons";
+import {
+  CloseOutlined,
+  UserOutlined,
+  CheckOutlined,
+  HomeOutlined,
+} from "@ant-design/icons";
 import {
   CHON_VE,
   CLEAR_VE_DANG_DAT,
@@ -19,6 +24,7 @@ import { Tabs } from "antd";
 import KetQuaCheckOut from "./KetQuaCheckOut";
 import { useState } from "react";
 import CountdownTime from "./CoundownTime";
+import Profile from "../../templates/HomeTemplate/Layout/Profile/Profile";
 const Checkout = () => {
   const navigate = useNavigate();
   const userLogin = useSelector((state) => state.AuthReducer.user);
@@ -41,24 +47,62 @@ const Checkout = () => {
   useEffect(() => {
     dispatch(getListPhongVeAction(id));
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const { thongTinPhim, danhSachGhe } = heThongPhongVe;
+  console.log("HE THONG PHONG VE", heThongPhongVe);
   const { isLoading } = useSelector((state) => state.LoadingReducer);
   // console.log(thongTinPhim);
   // console.log("DANG CHON", danhSachVeDangDat);
 
   // LICH SU DAT VE thongTinNguoiDung
   // console.log("param.id", id);
+
+  // const cusTomize = (
+  //   <>
+  //     {!_.isEmpty(userLogin) ? (
+  //       <div className="s">
+  //         <Profile />
+  //       </div>
+  //     ) : (
+  //       ""
+  //     )}
+  //   </>
+  // );
+  const cusTomer = (
+    <>
+      {!_.isEmpty(userLogin) ? (
+        <div className="text-white">
+          <Profile />
+        </div>
+      ) : (
+        ""
+      )}
+    </>
+  );
   return (
     <>
+      <div
+        className="header_checkout flex justify-between items-center text-white"
+        style={{ backgroundColor: "#242333" }}
+      >
+        <HomeOutlined
+          style={{ fontSize: "40px", cursor: "pointer" }}
+          className="ml-2"
+          onClick={() => {
+            navigate("/");
+          }}
+        />
+      </div>
       <Tabs
         className="antsCheckout"
         tabPosition={"top"}
-        activeKey={"1"}
+        activeKey="1"
         items={arrTab.map((item, index) => {
           const id = String(index + 1);
           let content = "";
-          // console.log(item);
-          // console.log(index);
           if (+index === 0) {
             // console.log("vao`");
             content = {
@@ -68,7 +112,10 @@ const Checkout = () => {
                 <>
                   {/* CHECKOUt */}
                   <div className="Checkout w-screen">
-                    <CountdownTime param={param.id} />
+                    <div className="flex justify-start">
+                      <CountdownTime param={param.id} />
+                      {cusTomer}
+                    </div>
                     <div className="Checkout-content">
                       <div className="datGhe">
                         <div className="container1">
@@ -135,7 +182,10 @@ const Checkout = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="muaVe flex flex-col justify-between border-solid border-3 border-sky-500">
+                      <div
+                        className="muaVe flex flex-col justify-between border-solid border-3 border-sky-500"
+                        style={{ position: "fixed", top: "0", right: 0 }}
+                      >
                         <div className="info-Ve ">
                           <p className="total border-b-2 text-green-500 text-center text-2xl border-gray-400 py-3">
                             {danhSachVeDangDat
@@ -210,7 +260,8 @@ const Checkout = () => {
                                 navigate("/checkout/result");
                               }
                             }}
-                            className="btn btn-success w-full"
+                            className="btnDatVe btn btn-success w-full"
+                            style={{ position: "absolute", bottom: "-25%" }}
                           >
                             ĐẶT VÉ
                           </button>
@@ -274,7 +325,6 @@ const Checkout = () => {
               label: (
                 <div
                   onClick={() => {
-                    dispatch(postThongTinNguoiDungAction());
                     navigate("/checkout/result");
                   }}
                 >
@@ -297,5 +347,9 @@ const Checkout = () => {
     </>
   );
 };
+
+// const ketQuaCheckOut=()=>{
+
+// }
 
 export default Checkout;

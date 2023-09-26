@@ -1,10 +1,11 @@
 import { Tabs } from "antd";
 import { Fragment } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import moment from "moment/moment";
 import contentStyle from "./HomeMenu.css.module.css";
 const HomeMenu = (props) => {
   const { heThongRapChieu } = props;
+  const navigate = useNavigate();
   const daoChuoi = (chuoi) => {
     let mangChuoi = chuoi.split("-");
 
@@ -58,6 +59,7 @@ const HomeMenu = (props) => {
                             {item.danhSachPhim
                               ?.slice(0, 5)
                               .map((phim, index) => {
+                                // console.log("HOME MENU", phim);
                                 return (
                                   <Fragment key={index}>
                                     <div className="film-content flex mb-2 border-b-2 pb-2 border-gray-600">
@@ -84,7 +86,7 @@ const HomeMenu = (props) => {
                                             .map((lichChieu, index) => {
                                               return (
                                                 <NavLink
-                                                  to="/"
+                                                  to={`/checkout/${phim.maPhim}`}
                                                   className={`text-green-500 px-3 py-2 rounded-lg item-hour ${contentStyle["item-hour"]}`}
                                                   style={{
                                                     border: "1px solid green",

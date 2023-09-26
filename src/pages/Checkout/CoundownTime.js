@@ -26,7 +26,10 @@ function CountdownTime({ param }) {
 
   return (
     <>
-      <div className="flex items-center text-3xl justify-center text-red-500 font-semibold">
+      <div
+        style={{ width: "60%" }}
+        className="flex items-center text-3xl justify-start text-red-500 font-semibold ml-3"
+      >
         <p className="text-white text-2xl mr-3">Thời gian giữ chỗ </p>
         <p>0{Math.floor(time / 60)}: </p>
         <p>{second >= 10 ? second : `0${second}`}</p>

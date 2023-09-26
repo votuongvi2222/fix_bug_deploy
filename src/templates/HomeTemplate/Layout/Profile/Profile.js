@@ -8,31 +8,37 @@ import {
   LOADING,
 } from "../../../../redux/actions/types/LoadingType";
 
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 const Profile = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const items = [
     {
       key: "1",
-      label: <p>Thông tin tài khoản</p>,
+      label: <p>{t("thongTinTk")}</p>,
     },
 
     {
       key: "2",
       label: (
         <p
-          onClick={() => {
-            dispatch({
+          onClick={async () => {
+            await dispatch({
               type: DANG_XUAT,
             });
+
+            navigate("/");
           }}
         >
-          Đăng Xuất
+          {t("Dangxuat")}
         </p>
       ),
     },
   ];
   return (
-    <div className="profile flex items-center">
+    <div className="profile flex items-center mr-2">
       <img
         className="rounded-full"
         style={{ width: 50, height: 50 }}

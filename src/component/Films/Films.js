@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Film.scss";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import ModalTrailer from "./ModalTrailer";
 const Films = (props) => {
   const nagivate = useNavigate();
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const { film } = props;
   // console.log("film", film);
   const styleContent = {
@@ -66,7 +72,7 @@ const Films = (props) => {
           >
             Đặt vé
           </button>
-          <button className="btn btn-warning">Trailer</button>
+          <ModalTrailer film={film} />
         </div>
       </div>
       <div className="card-body">
