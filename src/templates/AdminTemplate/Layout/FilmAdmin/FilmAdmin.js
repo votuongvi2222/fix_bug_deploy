@@ -88,9 +88,17 @@ const FilmAdmin = () => {
     {
       title: "Action",
       render: (value, film, index) => {
+        // console.log(film);
         return (
           <Fragment key={index}>
-            <button className="btn btn-primary mx-2">EDIT</button>
+            <button
+              onClick={() => {
+                navigate(`/admin/${film.maPhim}`);
+              }}
+              className="btn btn-primary mx-2"
+            >
+              EDIT
+            </button>
             <button className="btn btn-danger">DELETE</button>
           </Fragment>
         );
@@ -109,6 +117,7 @@ const FilmAdmin = () => {
       >
         Add movie
       </Button>
+
       <Search
         className={styleContent.inputSearch}
         placeholder="input search text"

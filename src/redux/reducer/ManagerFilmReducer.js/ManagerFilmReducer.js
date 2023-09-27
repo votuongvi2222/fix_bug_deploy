@@ -1,7 +1,12 @@
+import { act } from "react-dom/test-utils";
 import {
+  ACTION_ERROR,
+  ACTION_SUCCESS,
+  EDIT_SUCCESS,
   FILM_DANG_CHIEU,
   FILM_SAP_CHIEU,
   GET_LIST_FILM,
+  LAY_THONG_TIN_PHIM,
 } from "../../actions/types/FilmType";
 
 const stateDefault = {
@@ -25,6 +30,7 @@ const stateDefault = {
   dangChieu: true,
   sapChieu: false,
   arrFilmDefault: [],
+  thongTinPhim: {},
 };
 
 export const ManangerFilmReducer = (state = stateDefault, action) => {
@@ -63,6 +69,13 @@ export const ManangerFilmReducer = (state = stateDefault, action) => {
         dangChieu: false,
       };
     }
+    case LAY_THONG_TIN_PHIM: {
+      return {
+        ...state,
+        thongTinPhim: action.thongTinPhim,
+      };
+    }
+
     default:
       return { ...state };
   }

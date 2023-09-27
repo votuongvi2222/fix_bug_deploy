@@ -19,6 +19,7 @@ import FilmAdmin from "./templates/AdminTemplate/Layout/FilmAdmin/FilmAdmin";
 import ShowTime from "./templates/AdminTemplate/Layout/ShowTime/ShowTime";
 import DashBoard from "./templates/AdminTemplate/Layout/DashBoard/DashBoard";
 import AddNew from "./templates/AdminTemplate/Layout/AddNew/AddNew";
+import EditFilm from "./templates/AdminTemplate/Layout/EditFilm/EditFilm";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <Route path="showtime" element={<ShowTime />} />
           <Route path="dashboard" element={<DashBoard />} />
           <Route path="addnew" element={<AddNew />} />
+          <Route path=":id" element={<EditFilm />} />
         </Route>
 
         <Route path="*" element={<h1>404 NOT FOUND</h1>} />
