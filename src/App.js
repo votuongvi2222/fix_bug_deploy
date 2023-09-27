@@ -15,6 +15,10 @@ import Checkout from "./pages/Checkout/Checkout";
 import KetQuaCheckOut from "./pages/Checkout/KetQuaCheckOut";
 import Loading from "./pages/Loading/Loading";
 import AdminTemplate from "./templates/AdminTemplate/AdminTemplate";
+import FilmAdmin from "./templates/AdminTemplate/Layout/FilmAdmin/FilmAdmin";
+import ShowTime from "./templates/AdminTemplate/Layout/ShowTime/ShowTime";
+import DashBoard from "./templates/AdminTemplate/Layout/DashBoard/DashBoard";
+import AddNew from "./templates/AdminTemplate/Layout/AddNew/AddNew";
 
 function App() {
   return (
@@ -37,7 +41,12 @@ function App() {
           <Route path="result" element={<KetQuaCheckOut />} />
         </Route>
 
-        <Route path="/admin" element={<AdminTemplate />}></Route>
+        <Route path="/admin" element={<AdminTemplate />}>
+          <Route path="filmAdmin" element={<FilmAdmin />} />
+          <Route path="showtime" element={<ShowTime />} />
+          <Route path="dashboard" element={<DashBoard />} />
+          <Route path="addnew" element={<AddNew />} />
+        </Route>
 
         <Route path="*" element={<h1>404 NOT FOUND</h1>} />
       </Routes>
