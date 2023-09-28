@@ -20,6 +20,7 @@ import { Formik, useFormik } from "formik";
 import moment from "moment/moment";
 import {
   getLayThongTinPhimAcion,
+  getListFilmAction,
   postCapNhatFilmAction,
   postCapNhatPhimAction,
 } from "../../../../redux/actions/FilmAction";
@@ -29,6 +30,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { data } from "autoprefixer";
 import { postCapNhatPhim } from "../../../../services/MangerFilmServices";
 import { toast } from "react-toastify";
+import _ from "lodash";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const normFile = (e) => {
@@ -41,20 +43,23 @@ const EditFilm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
-  const { id } = params;
 
   // lay Action thanh cong hay that bai
 
   const { thongTinPhim } = useSelector((state) => state.ManangerFilmReducer);
   //   console.log(thongTinPhim);
   useEffect(() => {
+    //lay id ra trong day de luon dung maPhim
+    const { id } = params;
     dispatch(getLayThongTinPhimAcion(id));
   }, []);
 
   useEffect(() => {
-    setIMG(thongTinPhim.hinhAnh);
-  }, [thongTinPhim]);
-  const [img, setIMG] = useState(null);
+    setPreviewImg(thongTinPhim.hinhAnh);
+  }, [thongTinPhim.hinhAnh]);
+  // console.log({ thongTinPhim });
+  const [preViewImg, setPreviewImg] = useState(null);
+
   //   console.log(thongTinPhim);
   const formik = useFormik({
     enableReinitialize: true,
@@ -91,16 +96,25 @@ const EditFilm = () => {
 
       if (res && res.statusCode === 200) {
         navigate("/admin/filmAdmin");
+        console.log(res);
+        // dispatch(getListFilmAction());
         toast.success("Cập nhật thành công");
       } else {
+        console.log(res);
         toast.error(res.content);
       }
     },
   });
-  //   const handelChaneDatePick = (value) => {
-  //     const ngayKhoiChieu = moment(value).format("DD/MM/YYYY");
-  //     formik.setFieldValue("ngayKhoiChieu", ngayKhoiChieu);
-  //   };
+  // console.log(formik.values.ngayKhoiChieu);
+
+  // if (!_.isEmpty(formik.values.ngayKhoiChieu)) {
+  //   console.log("ss");
+  // }
+  const handelChaneDatePick = (value) => {
+    const ngayKhoiChieu = moment(value).format("DD/MM/YYYY");
+    // console.log(ngayKhoiChieu);
+    formik.setFieldValue("ngayKhoiChieu", ngayKhoiChieu);
+  };
 
   //   useEffect(() => {
   //     console.log(img);
@@ -109,21 +123,20 @@ const EditFilm = () => {
     const file = e.target.files[0];
     // console.log(file);
     //  khong co hinh tra ve preview IMG
-    if (file === undefined) {
-      setIMG(null);
-    } else if (
+    if (
       file?.type === "image/jpeg" ||
       file?.type === "image/jpg" ||
       file?.type === "image/gif" ||
       file?.type === "image/png"
     ) {
+      // Day file anh len formik
       await formik.setFieldValue("hinhAnh", file);
 
       const reader = new FileReader();
       reader.readAsDataURL(file);
 
       reader.onload = (e) => {
-        setIMG(e.target.result);
+        setPreviewImg(e.target.result);
       };
     }
   };
@@ -168,15 +181,13 @@ const EditFilm = () => {
           }}
         >
           <DatePicker
-            value={moment(formik.values.ngayKhoiChieu)}
+            defaultValue={moment(formik.values.ngayKhoiChieu)}
             style={{
               cursor: "pointer",
             }}
             name="ngayKhoiChieu"
             format={"DD/MM/YYYY"}
-            onChange={(date) => {
-              formik.setFieldValue("ngayKhoiChieu", date);
-            }}
+            onChange={handelChaneDatePick}
           />
         </Form.Item>
 
@@ -241,12 +252,16 @@ const EditFilm = () => {
           >
             Upload IMG
           </label>
-          {img !== null ? (
+          {preViewImg !== null ? (
             <div
               className="border-dotted border-2 p-4 text-center flex justify-center items-center mt-2 border-gray-400 rounded "
               style={{ height: 150 }}
             >
-              <img src={img} alt="s" style={{ width: "100px", height: 100 }} />
+              <img
+                src={preViewImg}
+                alt="s"
+                style={{ width: "100px", height: 100 }}
+              />
             </div>
           ) : (
             <div

@@ -27,6 +27,10 @@ const App = () => {
 
   const [auth, setAuth] = useState(false);
   const navigate = useNavigate();
+  // SCROLL khi navigate
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
 
   // LOGIC XU LY DANG NHAP VAO ADMIN
   useEffect(() => {

@@ -11,3 +11,21 @@ export const getThongTinPhim = (id) => {
     `https://movieapi.cyberlearn.vn/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${id}`
   );
 };
+
+export const getThongTinHeThongRap = () => {
+  return axios.get(
+    "https://movieapi.cyberlearn.vn/api/QuanLyRap/LayThongTinHeThongRap"
+  );
+};
+
+export const getThongTinCumRap = (maHeThongRap) => {
+  return axios.get(
+    `https://movieapi.cyberlearn.vn/api/QuanLyRap/LayThongTinCumRapTheoHeThong?maHeThongRap=${maHeThongRap}`
+  );
+};
+
+export const getThongTinLichChieu = (maPhim) => {
+  return axios.get(
+    `https://movieapi.cyberlearn.vn/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${maPhim}`
+  );
+};

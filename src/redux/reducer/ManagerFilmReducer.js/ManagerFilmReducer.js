@@ -8,6 +8,7 @@ import {
   GET_LIST_FILM,
   LAY_THONG_TIN_PHIM,
 } from "../../actions/types/FilmType";
+import { GET_LICH_CHIEU } from "../../actions/types/CinemaType";
 
 const stateDefault = {
   listFilm: [

@@ -1,9 +1,10 @@
 import {
   getListCinema,
+  getThongTinLichChieu,
   getThongTinPhim,
 } from "../../services/ManagerCinemaService";
 import { GET_THONG_TIN_PHIM } from "../../types/configType";
-import { GET_LIST_CINEMA } from "./types/CinemaType";
+import { GET_LICH_CHIEU, GET_LIST_CINEMA } from "./types/CinemaType";
 import { DIS_LOADING, LOADING } from "./types/LoadingType";
 
 export const getListCinemaActions = () => {
@@ -43,5 +44,24 @@ export const getThongTinPhimAction = (id) => {
         });
       }, [2000]);
     } catch (error) {}
+  };
+};
+
+export const getThongTinLichChieuAction = (maPhim) => {
+  return async (dispatch) => {
+    try {
+      const res = await getThongTinLichChieu(maPhim);
+      if (res && res.statusCode === 200) {
+        console.log(res);
+        dispatch({
+          type: GET_LICH_CHIEU,
+          data: res.content,
+        });
+      } else {
+        console.log("Error", res.content);
+      }
+    } catch (error) {
+      console.log("Errrr", error);
+    }
   };
 };

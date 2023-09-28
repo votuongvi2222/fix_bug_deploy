@@ -23,7 +23,6 @@ const suffix = (
     }}
   />
 );
-const onSearch = (value, _e, info) => console.log(info?.source, value);
 
 const FilmAdmin = () => {
   const { arrFilmDefault } = useSelector((state) => state.ManangerFilmReducer);
@@ -32,7 +31,16 @@ const FilmAdmin = () => {
   useEffect(() => {
     dispatch(getListFilmAction());
   }, []);
-  //   console.log("ARRFILM", arrFilmDefault);
+
+  // console.log("ARRFILM", arrFilmDefault);
+
+  const onSearch = async (value) => {
+    // console.log(value);
+
+    // GOI API LAY DANH SACH PHIM
+    await dispatch(getListFilmAction(value));
+  };
+
   const columns = [
     {
       title: "Mã phim",
@@ -83,23 +91,38 @@ const FilmAdmin = () => {
           </Fragment>
         );
       },
-      width: "30%",
+      width: "20%",
     },
     {
       title: "Action",
       render: (value, film, index) => {
-        // console.log(film);
         return (
-          <Fragment key={index}>
+          <Fragment className="flex" key={index}>
             <button
               onClick={() => {
                 navigate(`/admin/${film.maPhim}`);
               }}
-              className="btn btn-primary mx-2"
+              className="btn btn-primary "
             >
               EDIT
             </button>
-            <button className="btn btn-danger">DELETE</button>
+            <button
+              onClick={() => {
+                navigate(`/admin/delete/${film.maPhim}`);
+              }}
+              className="btn btn-danger mx-2"
+            >
+              DELETE
+            </button>
+            <butto
+              className="btn btn-success"
+              onClick={() => {
+                navigate(`/admin/showtime/${film.maPhim}/${film.tenPhim}`);
+                localStorage.setItem("FilmParam", JSON.stringify(film));
+              }}
+            >
+              Add Show Time
+            </butto>
           </Fragment>
         );
       },
@@ -122,15 +145,14 @@ const FilmAdmin = () => {
         className={styleContent.inputSearch}
         placeholder="input search text"
         onSearch={onSearch}
-        enterButton={
-          <SearchOutlined style={{ border: "none", color: "red" }} />
-        }
+        enterButton={<SearchOutlined style={{ color: "red" }} />}
       />
       <Table
         className="mt-2"
         columns={columns}
         dataSource={data}
         onChange={onChange}
+        rowKey="maPhim"
       />
     </div>
   );

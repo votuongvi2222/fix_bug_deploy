@@ -10,7 +10,12 @@ export const getListBanner = () => {
 
 // LIST FILM
 
-export const getListFilm = () => {
+export const getListFilm = (tenPhim = "") => {
+  if (tenPhim.trim() !== "") {
+    return axios.get(
+      `https://movieapi.cyberlearn.vn/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP00&tenPhim=${tenPhim}`
+    );
+  }
   return axios.get(
     `https://movieapi.cyberlearn.vn/api/QuanLyPhim/LayDanhSachPhim?maNhom=${GP00}`
   );
@@ -79,5 +84,11 @@ export const postCapNhatPhim = (
   return axios.post(
     "https://movieapi.cyberlearn.vn/api/QuanLyPhim/CapNhatPhimUpload",
     data
+  );
+};
+
+export const deletePhim = (maPhim) => {
+  return axios.delete(
+    `https://movieapi.cyberlearn.vn/api/QuanLyPhim/XoaPhim?MaPhim=${maPhim}`
   );
 };

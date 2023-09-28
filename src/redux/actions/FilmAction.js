@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  deletePhim,
   getListFilm,
   postCapNhatPhim,
   postThemFilm,
@@ -15,14 +16,14 @@ import { toast } from "react-toastify";
 import { getThongTinPhim } from "../../services/ManagerCinemaService";
 import { useNavigate } from "react-router-dom";
 
-export const getListFilmAction = () => {
+export const getListFilmAction = (tenPhim) => {
   return async (dispatch, getState) => {
     try {
       dispatch({
         type: LOADING,
       });
-      const res = await getListFilm();
-      if (res && res.content.length > 0) {
+      const res = await getListFilm(tenPhim);
+      if (res && res.statusCode === 200) {
         dispatch({
           type: GET_LIST_FILM,
           listFilm: res.content,
@@ -33,7 +34,7 @@ export const getListFilmAction = () => {
         dispatch({
           type: DIS_LOADING,
         });
-      }, [2000]);
+      }, [500]);
     } catch (error) {
       console.log("err", error);
     }
@@ -127,16 +128,33 @@ export const postCapNhatFilmAction = (
         hinhAnh,
         maNhom
       );
-      // console.log(res);
+      console.log(res);
       if (res && res.statusCode === 200) {
         toast.success("Cập nhật thành công");
       } else {
-        // console.log(res);
+        console.log(res);
 
         toast.error(res.content);
       }
     } catch (error) {
       console.log("ERR", error);
+    }
+  };
+};
+
+export const deletePhimAction = (maPhim) => {
+  return async (dispatch) => {
+    try {
+      const res = await deletePhim(maPhim);
+      if (res && res.statusCode === 200) {
+        console.log(res);
+        toast.success(res.message);
+      } else {
+        console.log(res);
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log("ERROR", error);
     }
   };
 };

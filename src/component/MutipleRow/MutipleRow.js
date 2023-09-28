@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import Slider from "react-slick";
 import styleContent from "./MutipleRow.module.css";
 import Films from "../Films/Films";
@@ -10,6 +10,8 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
+import { getThongTinLichChieuAction } from "../../redux/actions/CinemaAction";
+import { Cascader, Select } from "antd";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -42,6 +44,14 @@ const MultipleRows = (props) => {
   const { dangChieu, sapChieu } = useSelector(
     (state) => state.ManangerFilmReducer
   );
+
+  // LAY HE THONG RAP CHIEU THEO PHIM
+
+  const { lichChieu } = useSelector((state) => state.ManagerCinema);
+  console.log(lichChieu);
+
+  // console.log(props.listFilm);
+
   const renderListFilm = () => {
     return props.listFilm.slice(0, 12).map((item, index) => {
       return (
@@ -51,7 +61,7 @@ const MultipleRows = (props) => {
       );
     });
   };
-
+  // console.log("LISTFILM:", props.listFilm);
   const settings = {
     className: "center slider varialbe-width ",
     centerMode: true,
@@ -68,8 +78,70 @@ const MultipleRows = (props) => {
   };
   const activeClassDC = dangChieu ? "active-btn" : "none-active-btn";
   const activeClassSC = sapChieu ? "active-btn" : "none-active-btn";
+
+  const handleChange = (e) => {
+    dispatch(getThongTinLichChieuAction(e.target.value));
+  };
+
+  const conversListFilm = () => {
+    return props.listFilm?.map((film, index) => {
+      return {
+        value: film.maPhim,
+        label: (
+          <div className="w-36">
+            {film.tenPhim.length > 20
+              ? film.tenPhim.slice(0, 20) + " ..."
+              : film.tenPhim}
+          </div>
+        ),
+        children: [
+          {
+            value: film.maPhim,
+            label: (
+              <img
+                style={{ width: 150, height: 150 }}
+                src={film.hinhAnh}
+                alt=""
+              />
+            ),
+          },
+        ],
+      };
+    });
+  };
+  // const options = [
+  //   {
+  //     value: "zhejiang",
+  //     label: "Zhejiang",
+  //     children: [
+  //       {
+  //         value: "hangzhou",
+  //         label: (
+  //           <img
+  //             style={{ width: 150, height: 150 }}
+  //             src="https://picsum.photos/200"
+  //             alt=""
+  //           />
+  //         ),
+  //       },
+  //     ],
+  //   },
+  // ];
+
+  const onChange = (value) => {
+    console.log(value);
+  };
+  // const displayRender = (labels) => labels[labels.length - 1];
   return (
     <>
+      <div className="">
+        <Cascader
+          options={conversListFilm()}
+          expandTrigger="hover"
+          // displayRender={displayRender}
+          onChange={onChange}
+        />
+      </div>
       <div className="listBtn text-center">
         <button
           type="button"

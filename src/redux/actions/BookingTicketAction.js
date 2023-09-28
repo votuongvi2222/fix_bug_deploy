@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import {
   getListPhongVe,
   postDatVe,
+  postTaoLichChieu,
   postThongTinNguoiDung,
 } from "../../services/BookingService";
 import {
@@ -108,6 +109,33 @@ export const postThongTinNguoiDungAction = () => {
       });
     } catch (error) {
       console.log("error", error);
+    }
+  };
+};
+
+export const postTaoLichChieuAction = (
+  maPhim,
+  ngayChieuGioChieu,
+  maRap,
+  giaVe
+) => {
+  return async (dispatch) => {
+    try {
+      const res = await postTaoLichChieu(
+        maPhim,
+        ngayChieuGioChieu,
+        maRap,
+        giaVe
+      );
+      if (res && res.statusCode === 200) {
+        console.log(res);
+        toast.success(res.message);
+      } else {
+        console.log(res);
+        toast.error(res.content);
+      }
+    } catch (error) {
+      console.log("ERR", error);
     }
   };
 };

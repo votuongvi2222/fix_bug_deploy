@@ -2,24 +2,39 @@ import { PlusOutlined } from "@ant-design/icons";
 
 import {
   Button,
+  Cascader,
+  Checkbox,
   DatePicker,
   Form,
   Input,
   InputNumber,
-  Spin,
+  Radio,
+  Select,
+  Slider,
   Switch,
+  TreeSelect,
+  Upload,
 } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Formik, useFormik } from "formik";
 import moment from "moment/moment";
-
-import { useDispatch } from "react-redux";
+import {
+  deletePhimAction,
+  getLayThongTinPhimAcion,
+  getListFilmAction,
+  postCapNhatFilmAction,
+  postCapNhatPhimAction,
+} from "../../../../redux/actions/FilmAction";
+import { useDispatch, useSelector } from "react-redux";
 import { GP00 } from "../../../../types/configType";
-import { set } from "nprogress";
-import { postThemFilm } from "../../../../services/MangerFilmServices";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { data } from "autoprefixer";
+import {
+  deletePhim,
+  postCapNhatPhim,
+} from "../../../../services/MangerFilmServices";
 import { toast } from "react-toastify";
-import { postThemFilmAction } from "../../../../redux/actions/FilmAction";
+import _ from "lodash";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const normFile = (e) => {
@@ -28,80 +43,87 @@ const normFile = (e) => {
   }
   return e?.fileList;
 };
-const AddNew = () => {
-  const [img, setIMG] = useState(null);
+const DeleteFilm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoadingAdd] = useState(false);
+  const params = useParams();
+
+  // lay Action thanh cong hay that bai
+
+  const { thongTinPhim } = useSelector((state) => state.ManangerFilmReducer);
+  //   console.log(thongTinPhim);
+  const { maPhim } = params;
+  useEffect(() => {
+    //lay id ra trong day de luon dung maPhim
+
+    dispatch(getLayThongTinPhimAcion(maPhim));
+  }, []);
+
+  useEffect(() => {
+    setPreviewImg(thongTinPhim.hinhAnh);
+  }, [thongTinPhim.hinhAnh]);
+  // console.log({ thongTinPhim });
+  const [preViewImg, setPreviewImg] = useState(null);
+
+  //   console.log(thongTinPhim);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      tenPhim: "",
-      trailer: "",
-      moTa: "",
-      ngayKhoiChieu: "",
-      dangChieu: false,
-      sapChieu: false,
-      hot: false,
-      danhGia: 0,
-      hinhAnh: {},
+      maPhim: thongTinPhim.maPhim,
+      tenPhim: thongTinPhim.tenPhim,
+      trailer: thongTinPhim.trailer,
+      moTa: thongTinPhim.moTa,
+      ngayKhoiChieu: thongTinPhim.ngayKhoiChieu,
+      dangChieu: thongTinPhim.dangChieu,
+      sapChieu: thongTinPhim.sapChieu,
+      hot: thongTinPhim.hot,
+      danhGia: thongTinPhim.danhGia,
+      hinhAnh: null,
       maNhom: GP00,
     },
 
-    onSubmit: async (value, { resetForm }) => {
-      setLoadingAdd(true);
+    onSubmit: async (value) => {
+      //   console.log(value);
       console.log(value);
-      await dispatch(
-        postThemFilmAction(
-          value.tenPhim,
-          value.trailer,
-          value.moTa,
-          moment(value.ngayKhoiChieu).format("DD/MM/YYYY"),
-          value.sapChieu,
-          value.dangChieu,
-          value.hot,
-          value.danhGia,
-          value.hinhAnh,
-          value.maNhom
-        )
-      );
-
-      setLoadingAdd(false);
-      formik.setFieldValue("ngayKhoiChieu", "");
-      setIMG(null);
-      resetForm();
+      const res = await deletePhim(maPhim);
+      if (res && res.statusCode === 200) {
+        console.log(res);
+        toast.success(res.message);
+        navigate("/admin/filmAdmin");
+      } else {
+        console.log(res);
+        toast.error(res.content);
+      }
     },
   });
 
-  // const handelChaneDatePick = (value) => {
-  //   const ngayKhoiChieu = moment(value).format("DD/MM/YYYY");
-  //   formik.setFieldValue("ngayKhoiChieu", ngayKhoiChieu);
-  // };
-
-  const handleChangeIMG = (e) => {
+  const handleChangeIMG = async (e) => {
     const file = e.target.files[0];
     // console.log(file);
     //  khong co hinh tra ve preview IMG
-    if (file === undefined) {
-      setIMG(null);
-    } else if (
+    if (
       file?.type === "image/jpeg" ||
       file?.type === "image/jpg" ||
       file?.type === "image/gif" ||
       file?.type === "image/png"
     ) {
+      // Day file anh len formik
+      await formik.setFieldValue("hinhAnh", file);
+
       const reader = new FileReader();
       reader.readAsDataURL(file);
+
       reader.onload = (e) => {
-        setIMG(e.target.result);
-        formik.setFieldValue("hinhAnh", file);
+        setPreviewImg(e.target.result);
       };
     }
   };
 
   return (
     <>
+      <h1 className="text-center text-3xl mb-2">Bạn có chắc muốn xoá Film:</h1>
       <Form
+        disabled
         labelCol={{
           span: 4,
         }}
@@ -113,23 +135,23 @@ const AddNew = () => {
         <Form.Item label="Ten Phim">
           <Input
             name="tenPhim"
-            value={formik.values.tenPhim}
             onChange={formik.handleChange}
+            value={formik.values.tenPhim}
           />
         </Form.Item>
         <Form.Item label="Trailer">
           <Input
             name="trailer"
-            value={formik.values.trailer}
             onChange={formik.handleChange}
+            value={formik.values.trailer}
           />
         </Form.Item>
         <Form.Item label="Mo ta">
           <TextArea
             name="moTa"
-            value={formik.values.moTa}
             rows={4}
             onChange={formik.handleChange}
+            value={formik.values.moTa}
           />
         </Form.Item>
         <Form.Item
@@ -139,13 +161,12 @@ const AddNew = () => {
           }}
         >
           <DatePicker
-            value={formik.values.ngayKhoiChieu}
+            defaultValue={moment(formik.values.ngayKhoiChieu)}
             style={{
               cursor: "pointer",
             }}
             name="ngayKhoiChieu"
             format={"DD/MM/YYYY"}
-            onChange={(date) => formik.setFieldValue("ngayKhoiChieu", date)}
           />
         </Form.Item>
 
@@ -161,8 +182,8 @@ const AddNew = () => {
         </Form.Item>
         <Form.Item label="Hot">
           <Switch
-            name="hot"
             checked={formik.values.hot}
+            name="hot"
             style={{ backgroundColor: "green" }}
             onChange={(value, e) => {
               formik.setFieldValue(e.target.name, value);
@@ -171,8 +192,8 @@ const AddNew = () => {
         </Form.Item>
         <Form.Item label="Sap chieu" valuePropName="checked">
           <Switch
-            checked={formik.values.sapChieu}
             name="sapChieu"
+            checked={formik.values.sapChieu}
             style={{ backgroundColor: "green" }}
             onChange={(value, e) => {
               formik.setFieldValue(e.target.name, value);
@@ -202,20 +223,25 @@ const AddNew = () => {
             id="uploadIMG"
             onChange={handleChangeIMG}
             hidden
+            disabled
           />
 
           <label
-            className="bg-blue-400 p-2 border-blue-400 rounded cursor-pointer"
+            className="bg-blue-400 opacity-40 cursor-no-drop p-2 border-blue-400 rounded cursor-pointer"
             htmlFor="uploadIMG"
           >
             Upload IMG
           </label>
-          {img !== null ? (
+          {preViewImg !== null ? (
             <div
               className="border-dotted border-2 p-4 text-center flex justify-center items-center mt-2 border-gray-400 rounded "
               style={{ height: 150 }}
             >
-              <img src={img} alt="s" style={{ width: "100px", height: 100 }} />
+              <img
+                src={preViewImg}
+                alt="s"
+                style={{ width: "100px", height: 100 }}
+              />
             </div>
           ) : (
             <div
@@ -227,22 +253,17 @@ const AddNew = () => {
           )}
         </Form.Item>
         <Form.Item label="Button">
-          {!loading ? (
-            <Button onClick={formik.handleSubmit} type="submit">
-              Add Film
-            </Button>
-          ) : (
-            <Button
-              disabled={loading}
-              type="submit"
-              className="flex items-center"
-            >
-              <Spin size="small" className="mr-2" /> <span>Add Film</span>
-            </Button>
-          )}
+          <Button
+            size="large"
+            disabled={false}
+            onClick={formik.handleSubmit}
+            type="submit"
+          >
+            Delete
+          </Button>
         </Form.Item>
       </Form>
     </>
   );
 };
-export default AddNew;
+export default DeleteFilm;

@@ -19,3 +19,15 @@ export const postThongTinNguoiDung = () => {
     "https://movieapi.cyberlearn.vn/api/QuanLyNguoiDung/ThongTinTaiKhoan"
   );
 };
+
+export const postTaoLichChieu = (maPhim, ngayChieuGioChieu, maRap, giaVe) => {
+  return axios.post(
+    "https://movieapi.cyberlearn.vn/api/QuanLyDatVe/TaoLichChieu",
+    {
+      maPhim,
+      ngayChieuGioChieu,
+      maRap,
+      giaVe,
+    }
+  );
+};

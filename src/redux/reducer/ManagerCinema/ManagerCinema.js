@@ -1,9 +1,13 @@
 import { GET_THONG_TIN_PHIM } from "../../../types/configType";
-import { GET_LIST_CINEMA } from "../../actions/types/CinemaType";
+import {
+  GET_LICH_CHIEU,
+  GET_LIST_CINEMA,
+} from "../../actions/types/CinemaType";
 
 const stateDefault = {
   heThongRapChieu: [],
   filmDetail: {},
+  lichChieu: [],
 };
 
 export const ManagerCinema = (state = stateDefault, action) => {
@@ -13,6 +17,9 @@ export const ManagerCinema = (state = stateDefault, action) => {
     }
     case GET_THONG_TIN_PHIM: {
       return { ...state, filmDetail: action.filmDetail };
+    }
+    case GET_LICH_CHIEU: {
+      return { ...state, lichChieu: action.data };
     }
     default:
       return { ...state };
