@@ -31,25 +31,6 @@ const Films = (props) => {
   };
 
   return (
-    // <div className="film-item h-full bg-gray-100 bg-opacity-75 px-8 pt-16 pb-10 rounded-lg overflow-hidden text-center relative mb-2 mr-2">
-    //   <div
-    //     className="img"
-    //     style={{
-    //       ...styleContent,
-    //       backgroundImage: `url(${film.hinhAnh})`,
-    //     }}
-    //   >
-    //     <img className="opacity-1" src={film.hinhAnh} alt={film.tenPhim} />
-    //   </div>
-    //   <h1 className="title-film text-xl font-medium text-gray-900 mb-3 h-16">
-    //     {film.tenPhim}
-    //   </h1>
-    //   <p className="leading-relaxed mb-3 content-film h-16">
-    //     {film.moTa.length > 0 ? `${film.moTa.slice(0, 100)} ...` : film.moTa}
-    //   </p>
-    //   <a className="text-indigo-500 inline-flex items-center">Đặt vé</a>
-    // </div>
-
     <div className="card" style={{ width: "18rem", marginTop: 20 }}>
       <div
         className="img"
@@ -68,7 +49,7 @@ const Films = (props) => {
             onClick={() => {
               nagivate(`/detail/${film.maPhim}`);
             }}
-            className="btn btn-primary mb-2"
+            className="btn-datVe mb-2"
           >
             Đặt vé
           </button>

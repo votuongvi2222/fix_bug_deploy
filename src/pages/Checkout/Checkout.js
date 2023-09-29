@@ -204,6 +204,9 @@ const Checkout = () => {
                             <p className="ngayChieu">
                               Lịch chiếu : {thongTinPhim.ngayChieu}
                             </p>
+                            <p className="gioChieu">
+                              Giờ chiếu : {thongTinPhim.gioChieu}
+                            </p>
                           </div>
                           <div className="flex justify-between border-b-2 border-gray-400 py-3">
                             <div className=" text-red-600 w-3/4 flex flex-wrap items-center ">

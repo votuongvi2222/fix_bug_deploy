@@ -84,18 +84,27 @@ const HomeMenu = (props) => {
                                           {phim.lstLichChieuTheoPhim
                                             ?.slice(0, 10)
                                             .map((lichChieu, index) => {
+                                              // console.log(
+                                              //   "LICH CHIEU",
+                                              //   lichChieu
+                                              // );
+                                              // console.log(phim);
                                               return (
                                                 <NavLink
-                                                  to={`/checkout/${phim.maPhim}`}
-                                                  className={`text-green-500 px-3 py-2 rounded-lg item-hour ${contentStyle["item-hour"]}`}
-                                                  style={{
-                                                    border: "1px solid green",
-                                                  }}
+                                                  to={`/checkout/${lichChieu.maLichChieu}`}
+                                                  className={` rounded-lg item-hour ${contentStyle["item-hour"]}`}
                                                   key={index}
                                                 >
-                                                  {moment(
-                                                    lichChieu.ngayChieuGioChieu
-                                                  ).format("hh:mm A")}
+                                                  <span
+                                                    style={{
+                                                      fontSize: ".9rem",
+                                                    }}
+                                                  >
+                                                    {" "}
+                                                    {moment(
+                                                      lichChieu.ngayChieuGioChieu
+                                                    ).format("hh:mm A")}
+                                                  </span>
                                                 </NavLink>
                                               );
                                             })}

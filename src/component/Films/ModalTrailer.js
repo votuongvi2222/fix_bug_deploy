@@ -13,7 +13,7 @@ function ModalTrailer({ film, show, handleClose, handleShow }) {
   return (
     <Popup
       contentStyle={{ border: "none", padding: "0" }}
-      trigger={<button className="btn btn-warning"> Trailer </button>}
+      trigger={<button className="btn-trailer"> Trailer </button>}
       modal
       nested
     >
