@@ -22,7 +22,11 @@ import AddNew from "./templates/AdminTemplate/Layout/AddNew/AddNew";
 import EditFilm from "./templates/AdminTemplate/Layout/EditFilm/EditFilm";
 import DeleteFilm from "./templates/AdminTemplate/Layout/DeleteFilm/DeleteFilm";
 import AddShowTime from "./templates/AdminTemplate/Layout/AddShowTime/AddShowTime";
-
+import { User } from "iconsax-react";
+import ListUser from "./templates/AdminTemplate/Layout/Users/User/ListUser";
+import AddNewUser from "./templates/AdminTemplate/Layout/Users/User/AddNewUser/AddNewUser";
+import EditUser from "./templates/AdminTemplate/Layout/Users/User/EditUser/EditUser";
+import DeleteUser from "./templates/AdminTemplate/Layout/Users/DeleteUser/DeleteUser";
 function App() {
   return (
     <div className="App">
@@ -52,6 +56,10 @@ function App() {
           <Route path=":id" element={<EditFilm />} />
           <Route path="delete/:maPhim" element={<DeleteFilm />} />
           <Route path="showtime/:maPhim/:tenPhim" element={<AddShowTime />} />
+          <Route path="listUser" element={<ListUser />} />
+          <Route path="AddNewUser" element={<AddNewUser />} />
+          <Route path="editUser" element={<EditUser />} />
+          <Route path="deleteUser" element={<DeleteUser />} />
         </Route>
 
         <Route path="*" element={<h1>404 NOT FOUND</h1>} />

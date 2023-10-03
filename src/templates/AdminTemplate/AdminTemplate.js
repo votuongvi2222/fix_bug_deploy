@@ -100,8 +100,17 @@ const App = () => {
         "4"
       ),
     ]),
-    getItem("Team", "sub2", <TeamOutlined />, [
-      getItem("Team 1", "6"),
+    getItem("Customer", "sub2", <TeamOutlined />, [
+      getItem(
+        <div
+          onClick={() => {
+            navigate("/admin/listUser");
+          }}
+        >
+          List User
+        </div>,
+        "listUsers"
+      ),
       getItem("Team 2", "8"),
     ]),
     getItem("Files", "9", <FileOutlined />),

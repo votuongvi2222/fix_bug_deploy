@@ -21,6 +21,7 @@ export const ManagerCinema = (state = stateDefault, action) => {
     case GET_LICH_CHIEU: {
       return { ...state, lichChieu: action.data };
     }
+
     default:
       return { ...state };
   }

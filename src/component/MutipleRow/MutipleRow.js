@@ -19,6 +19,8 @@ import {
   getThongTinLichChieu,
 } from "../../services/ManagerCinemaService";
 import { list } from "postcss";
+import { GET_LICH_CHIEU } from "../../redux/actions/types/CinemaType";
+import { useFormik } from "formik";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -44,6 +46,14 @@ function SamplePrevArrow(props) {
 }
 
 const MultipleRows = (props) => {
+  // state
+  const [filmCurrent, setFilmCurrent] = useState("");
+  const [htrCurrent, setHtrCurrent] = useState("");
+  const [cumRapCurrent, setCumRapCurrent] = useState("");
+  const [lichCurrent, setLichCurrent] = useState("");
+
+  // option
+  const { Option } = Select;
   // HOOK ĐA NGÔN NGỮ
   const { t, i18n } = useTranslation();
   const nagivate = useNavigate();
@@ -51,33 +61,14 @@ const MultipleRows = (props) => {
   const { dangChieu, sapChieu } = useSelector(
     (state) => state.ManangerFilmReducer
   );
-  const [edit, setEdit] = useState({
-    film: "",
-    cumRap: "",
-    ngayChieu: "",
-    gioChieu: "",
-  });
+
+  // Lay lich chieu
+
+  const { lichChieu } = useSelector((state) => state.ManagerCinema);
+  console.log({ lichChieu });
 
   // DAT STATE CUMRAP
 
-  const [cumRap, setCumRap] = useState([]);
-  // LAY HE THONG RAP CHIEU THEO PHIM
-
-  // const { lichChieu } = useSelector((state) => state.ManagerCinema);
-  // console.log(lichChieu);
-
-  // console.log(props.listFilm);
-  // console.log("pickLodash", pickLodash);
-  const renderListFilm = () => {
-    return props.listFilm.slice(0, 40).map((item, index) => {
-      return (
-        <div className={`${styleContent["item-width"]}`} key={index}>
-          <Films film={item} />
-        </div>
-      );
-    });
-  };
-  // console.log("LISTFILM:", props.listFilm);
   const settings = {
     className: "center slider  ",
     // centerMode: true,
@@ -122,32 +113,22 @@ const MultipleRows = (props) => {
     });
   };
 
-  useEffect(() => {
-    console.log(cumRap);
-  }, [cumRap]);
-
-  // Neu thay doi film thi clear het form
-  useEffect(() => {
-    setEdit({
-      ...edit,
-      cumRap: "",
-      ngayChieu: "",
-      gioChieu: "",
-    });
-  }, [edit.film]);
-
   const onChangeFilm = async (value) => {
     // Lay thong tin lich chieu
-    setEdit({
-      ...edit,
-      film: value[1],
-    });
+    setFilmCurrent(value[0]);
+
+    setCumRapCurrent("");
+    setHtrCurrent("");
+    setLichCurrent("");
     try {
       const res = await getThongTinLichChieu(value[0]);
       if (res && res.statusCode === 200) {
-        console.log(res);
-        setCumRap(res.content.heThongRapChieu);
-        console.log("CUM RAP ", cumRap);
+        // console.log(res);
+        dispatch({
+          type: GET_LICH_CHIEU,
+          data: res.content,
+        });
+        // console.log("CUM RAP ", cumRap);
       } else {
         console.log("LOI", res.content);
       }
@@ -159,84 +140,81 @@ const MultipleRows = (props) => {
     //   _.map(item, "cumRapChieu")
     // );
   };
+  // Phim CURRENT
 
-  const onChangeCumRap = (e) => {
-    setEdit({
-      ...edit,
-      cumRap: e.target.value,
+  // HE THONG RAP
+  const onChangeHeThongRap = (value) => {
+    let item = lichChieu?.heThongRapChieu?.find(
+      (rap) => rap.maHeThongRap === value
+    );
+
+    if (item !== undefined) {
+      setHtrCurrent(item);
+    }
+  };
+
+  const reverseHeThongRap = () => {
+    return lichChieu?.heThongRapChieu?.map((rap, index) => {
+      return {
+        value: rap.maHeThongRap,
+        label: <>{rap.tenHeThongRap}</>,
+      };
     });
   };
 
-  // LAY ma lich chieu de in ra checkout theo ma lich
-  const [maLich, setMaLich] = useState(null);
-  const onChangeLichChieu = (e) => {
-    // set ma lich chieu
-    setMaLich(e.target.value);
+  // CUM RAP
+  const onChangeCumRap = (value) => {
+    console.log(value);
 
-    setEdit({
-      ...edit,
-      ngayChieu: e.target.value,
-    });
-  };
-  const onChangeSuatChieu = (e) => {
-    setEdit({
-      ...edit,
-      gioChieu: e.target.value,
-    });
+    let item = htrCurrent?.cumRapChieu?.find((item) => item.maCumRap === value);
+    if (item !== undefined) {
+      setCumRapCurrent(item);
+      console.log("CUM RAP", item);
+    }
   };
 
-  const converseListCumRap = () => {
-    return cumRap?.map((cr, index) => {
-      return cr.cumRapChieu?.map((item, index) => {
-        return (
-          <option className="text-center" key={index} value={item.maCumRap}>
-            {item.tenCumRap}
-          </option>
-        );
-      });
+  const reverseCumRap = () => {
+    return htrCurrent?.cumRapChieu?.map((cumRap, index) => {
+      return {
+        value: cumRap.maCumRap,
+        label: <>{cumRap.tenCumRap}</>,
+      };
     });
   };
 
-  const converseListLichChieu = () => {
-    // console.log("co vao");
-    return cumRap?.map((cr, index) => {
-      // console.log("CRRR", cr);
-      return cr.cumRapChieu?.map((item, index) => {
-        // console.log("Item", item);
-        return item.lichChieuPhim?.map((lc, index) => {
-          // console.log("LICH CHIEU", lc);
-          return (
-            <option className="text-center" key={index} value={lc.maLichChieu}>
-              {moment(lc.ngayChieuGioChieu).format("DD/MM/YYYY")}
-            </option>
-          );
-        });
-      });
+  const onchangeLichChieu = (value) => {
+    console.log(value);
+
+    let item = cumRapCurrent?.lichChieuPhim?.find(
+      (lich) => lich.maLichChieu === value
+    );
+    if (item !== undefined) {
+      setLichCurrent(item);
+      console.log("LICH CURRENT", item);
+    }
+  };
+
+  const reverseLichChieu = () => {
+    return cumRapCurrent?.lichChieuPhim?.map((lich, index) => {
+      return {
+        value: lich.maLichChieu,
+        label: <>{moment(lich.ngayChieuGioChieu).format("DD/MM/YYYY")}</>,
+      };
     });
   };
 
-  const converseSuatChieu = () => {
-    // console.log("co vao");
-    return cumRap?.map((cr, index) => {
-      // console.log("CRRR", cr);
-      return cr.cumRapChieu?.map((item, index) => {
-        // console.log("Item", item);
-        return item.lichChieuPhim?.map((lc, index) => {
-          // console.log("LICH CHIEU", lc);
-          return (
-            <option className="text-center" key={index} value={lc.maLichChieu}>
-              {moment(lc.ngayChieuGioChieu).format("hh:mm A")}
-            </option>
-          );
-        });
-      });
-    });
+  // SUAT CHIEU
+  const onchangeSuatChieu = (value) => {
+    console.log(value);
   };
-  // const displayRender = (labels) => labels[labels.length - 1];
+  const reverseSuatChieu = () => {
+    return {};
+  };
   return (
     <>
       <div className="flex justify-center mb-4">
         <Cascader
+          width={200}
           defaultValue={<>Chose Film</>}
           allowClear={false}
           options={conversListFilm()}
@@ -245,70 +223,74 @@ const MultipleRows = (props) => {
           onChange={onChangeFilm}
         />
 
-        <select
-          style={{ border: "1px solid #d9d9d9", width: 150, height: 32 }}
-          name="cumRap"
-          value={edit.cumRap}
-          //DISABLE SET THEO GIA TRI DANG TRUOC CO THI` SE CO SELECT
-          disabled={edit.film === "" ? true : false}
-          className={
-            edit.film === ""
-              ? "mx-4 border-green-500 cursor-no-drop"
-              : "mx-4 border-green-500 "
-          }
+        <Select
+          onChange={onChangeHeThongRap}
+          defaultValue={htrCurrent}
+          style={{
+            margin: "0 20px",
+            width: 200,
+          }}
+          // value={}
+          options={reverseHeThongRap()}
+          optionLabelProp="label"
+        />
+
+        <Select
           onChange={onChangeCumRap}
-        >
-          <option className="text-center" value="">
-            Chose cum Rap
-          </option>
-          {converseListCumRap()}
-        </select>
-        <select
-          style={{ border: "1px solid #d9d9d9", width: 150, height: 32 }}
-          name="gioChieu "
-          value={edit.ngayChieu}
-          //DISABLE SET THEO GIA TRI DANG TRUOC CO THI` SE CO SELECT
-          disabled={edit.cumRap === "" ? true : false}
-          className={
-            edit.cumRap === "" || edit.film === ""
-              ? "mr-4 cursor-no-drop"
-              : "mr-4"
-          }
-          onChange={onChangeLichChieu}
-        >
-          <option value="" className="text-center">
-            Chose lich chieu
-          </option>
-          {converseListLichChieu()}
-        </select>
+          defaultValue={cumRapCurrent}
+          style={{
+            margin: "0 20px",
+            width: 200,
+          }}
+          // value={}
+          options={reverseCumRap()}
+          optionLabelProp="label"
+        />
 
-        <select
-          style={{ border: "1px solid #d9d9d9", width: 150, height: 32 }}
-          name="suatChieu"
-          //DISABLE SET THEO GIA TRI DANG TRUOC CO THI` SE CO SELECT
-          disabled={edit.ngayChieu === "" ? true : false}
-          className={
-            edit.ngayChieu === "" || edit.film === "" ? "cursor-no-drop" : ""
-          }
-          onChange={onChangeSuatChieu}
-          value={edit.gioChieu}
-        >
-          <option className="text-center" value="">
-            Chose suat chieu
-          </option>
-          {converseSuatChieu()}
-        </select>
+        <Select
+          onChange={onchangeLichChieu}
+          defaultValue={lichCurrent}
+          style={{
+            margin: "0 20px",
+            width: 200,
+          }}
+          // value={}
+          options={reverseLichChieu()}
+          optionLabelProp="label"
+        />
 
+        <Select
+          onChange={onchangeSuatChieu}
+          // defaultValue={}
+          style={{
+            margin: "0 20px",
+            width: 200,
+          }}
+          // value={}
+          options={[
+            lichCurrent !== ""
+              ? {
+                  value: lichCurrent.maLichChieu,
+                  label: (
+                    <>
+                      {moment(lichCurrent.ngayChieuGioChieu).format("hh:mm A")}
+                    </>
+                  ),
+                }
+              : {
+                  value: "",
+                  label: "",
+                },
+          ]}
+          optionLabelProp="label"
+        />
         <button
           onClick={() => {
-            nagivate(`/checkout/${maLich}`);
+            nagivate(`/checkout/${lichCurrent?.maLichChieu}`);
           }}
-          disabled={edit.gioChieu === "" ? true : false}
-          className={
-            edit.film === "" || edit.gioChieu === ""
-              ? `${styleContent["btn-muaVe"]} ${styleContent["btn-muaVes"]}`
-              : `${styleContent["btn-muaVe"]}`
-          }
+          disabled={lichCurrent === "" ? true : false}
+          className={`${styleContent["btn-muaVe"]} ${styleContent["btn-muaVes"]}
+            `}
         >
           Mua vé ngay
         </button>

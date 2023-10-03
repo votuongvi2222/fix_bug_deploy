@@ -4,9 +4,13 @@ import {
   DANG_NHAP_THANH_CONG,
   DANG_NHAP_THAT_BAI,
   DANG_XUAT,
+  LAY_DANH_SACH_USER,
   LOGIN,
   REGISTER,
+  TIM_KIEM_NGUOI_DUNG,
+  USER_CURRENT,
 } from "../../actions/types/AuthType";
+import { ThongTinUser } from "../../../_core/models/ThongTinUser";
 
 let userDangNhap = {};
 if (localStorage.getItem(USER_LOGIN)) {
@@ -15,6 +19,9 @@ if (localStorage.getItem(USER_LOGIN)) {
 const stateDefault = {
   user: userDangNhap,
   soDT: null,
+  lstUser: [],
+  userEdit: {},
+  lstUserDefault: [],
 };
 
 export const AuthReducer = (state = stateDefault, action) => {
@@ -42,6 +49,20 @@ export const AuthReducer = (state = stateDefault, action) => {
         ...state,
         user: {},
       };
+    case LAY_DANH_SACH_USER: {
+      return {
+        ...state,
+        lstUser: action.lstUser,
+        lstUserDefault: action.lstUser,
+      };
+    }
+    case USER_CURRENT: {
+      // console.log(action);
+      return { ...state, userEdit: action.userEdit };
+    }
+    case TIM_KIEM_NGUOI_DUNG: {
+      return { ...state, lstUser: action.dataUser };
+    }
     default:
       return { ...state };
   }
