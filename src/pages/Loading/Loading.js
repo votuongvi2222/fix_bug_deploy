@@ -9,7 +9,7 @@ const Loading = () => {
     <>
       {isLoading === true ? (
         <div className="loading">
-          <img src="/logoTixLoading.png" alt="imgLoading" />
+          <img src="/image/logoTixLoading.png" alt="imgLoading" />
         </div>
       ) : (
         ""

@@ -49,9 +49,10 @@ function App() {
         </Route>
 
         <Route path="/admin" element={<AdminTemplate />}>
+          <Route index element={<DashBoard />} />
           <Route path="filmAdmin" element={<FilmAdmin />} />
           <Route path="showtime" element={<ShowTime />} />
-          <Route index element={<DashBoard />} />
+
           <Route path="addnew" element={<AddNew />} />
           <Route path=":id" element={<EditFilm />} />
           <Route path="delete/:maPhim" element={<DeleteFilm />} />

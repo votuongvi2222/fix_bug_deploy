@@ -114,8 +114,9 @@ const ListUser = () => {
   return (
     <Fragment>
       <div className="text-center mb-2">
-        <h1 className="mb-2 font-bold text-2xl text-center">DANH SÁCH USER</h1>
+        <h1 className="mb-2 font-bold text-2xl text-center ">DANH SÁCH USER</h1>
         <Search
+          className="mb-2"
           placeholder="input search text"
           onSearch={onSearch}
           enterButton={<SearchOutlined style={{ color: "red" }} />}

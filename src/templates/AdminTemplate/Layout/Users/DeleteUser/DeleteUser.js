@@ -10,11 +10,15 @@ const DeleteUser = () => {
   const navigate = useNavigate();
   const { userEdit } = useSelector((state) => state.AuthReducer);
   const [taiKhoan, setTaiKhoan] = useState(userEdit?.taiKhoan);
+  const [email, setEmail] = useState(userEdit?.email);
+  const [hoTen, setHoTen] = useState(userEdit?.hoTen);
   const handleChange = (e) => {
     setTaiKhoan(e.target.value);
   };
   useEffect(() => {
     setTaiKhoan(userEdit?.taiKhoan);
+    setEmail(userEdit?.email);
+    setHoTen(userEdit?.hoTen);
   }, [userEdit]);
 
   const handleSubmit = async (e) => {
@@ -34,15 +38,46 @@ const DeleteUser = () => {
   };
   return (
     <>
-      <div>DeleteUser</div>
+      <div className="text-center text-2xl font-bold mb-2">
+        Bạn có chắc muốn xoá user này?
+      </div>
       <Form
+        labelCol={{
+          span: 6,
+        }}
+        wrapperCol={{
+          span: 16,
+        }}
         layout="horizontal"
-        labelCol={6}
-        wrapperCol={16}
         style={{ width: "80%", margin: "auto" }}
       >
         <Form.Item label="Tai Khoan">
-          <Input value={taiKhoan} onChange={handleChange} />
+          <Input
+            disabled
+            className="mb-2"
+            value={taiKhoan}
+            onChange={handleChange}
+          />
+        </Form.Item>
+
+        <Form.Item label="Ho ten">
+          <Input
+            disabled
+            name="hoTen"
+            className="mb-2"
+            value={hoTen}
+            onChange={handleChange}
+          />
+        </Form.Item>
+
+        <Form.Item label="Email">
+          <Input
+            disabled
+            className="mb-2"
+            name="email"
+            value={email}
+            onChange={handleChange}
+          />
           <Button onClick={handleSubmit}>Delete</Button>
         </Form.Item>
       </Form>

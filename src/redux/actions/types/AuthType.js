@@ -10,3 +10,5 @@ export const DANG_XUAT = "DANG_XUAT";
 export const LAY_DANH_SACH_USER = "LAY_DANH_SACH_USER";
 export const USER_CURRENT = "USER_CURRENT";
 export const TIM_KIEM_NGUOI_DUNG = "TIM_KIEM_NGUOI_DUNG";
+
+export const UP_COMMENT = "UP_COMMENT";

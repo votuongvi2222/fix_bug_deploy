@@ -13,6 +13,7 @@ const Films = (props) => {
   // console.log("film", film);
   const styleContent = {
     height: "400px",
+
     backgroundPosition: "center",
     backgroundSize: "100% 100%",
     backgroundRepeat: "no-repeat",
@@ -31,7 +32,14 @@ const Films = (props) => {
   };
 
   return (
-    <div className="card" style={{ width: "18rem", marginTop: 20 }}>
+    <div
+      className="card"
+      style={{
+        width: "18rem",
+        marginTop: 20,
+        boxShadow: `rgb(38, 57, 77) 0px 20px 30px -10px`,
+      }}
+    >
       <div
         className="img"
         style={{
@@ -51,7 +59,7 @@ const Films = (props) => {
             }}
             className="btn-datVe mb-2"
           >
-            Đặt vé
+            Chi tiết
           </button>
           <ModalTrailer film={film} />
         </div>

@@ -3,13 +3,20 @@ import { NavLink, useParams } from "react-router-dom";
 import { CustomCard } from "@tsamantanis/react-glassmorphism";
 import "@tsamantanis/react-glassmorphism/dist/index.css";
 import "./Details.scss";
-import { Rate, Tabs } from "antd";
+import { Rate, Tabs, Form, Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { getThongTinPhimAction } from "../redux/actions/CinemaAction";
 import { LoadingOutlined } from "@ant-design/icons";
+import contentStyle from "./Details.module.css";
 import moment from "moment/moment";
+// import { Rate } from "react";
+
+// DATARATE
+
+import data from "../assets/dataRate.json";
 
 import { Spin } from "antd";
+import { UP_COMMENT } from "../redux/actions/types/AuthType";
 
 const Details = () => {
   const [loading, setLoading] = useState(true);
@@ -17,7 +24,55 @@ const Details = () => {
   const ref = useRef(null);
   const dispatch = useDispatch();
   const { filmDetail } = useSelector((state) => state.ManagerCinema);
-  // console.log(filmDetail);
+  // console.log({ filmDetail });
+  const { user } = useSelector((state) => state.AuthReducer);
+
+  // DATA RATE
+  const { dataRate } = data;
+
+  // StateDataRate
+
+  const [currentTime, setCurrentTime] = useState("");
+  useEffect(() => {
+    let currentdate = new Date();
+    let datetime =
+      currentdate.getHours() +
+      ":" +
+      currentdate.getMinutes() +
+      ":" +
+      currentdate.getSeconds();
+    setCurrentTime(datetime);
+  }, []);
+  const { dataComment } = useSelector((state) => state.AuthReducer);
+
+  console.log({ dataComment });
+  const [star, setStar] = useState(0);
+  // Binh luan
+  const [comment, setComment] = useState("");
+
+  const handleChange = (e) => {
+    setComment(e.target.value);
+  };
+  const handleChangeStar = (e) => {
+    setStar(e);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const currTime = new Date().toLocaleTimeString();
+    dispatch({
+      type: UP_COMMENT,
+      userCurrent: {
+        hoTen: user.hoTen,
+        email: user.email,
+        binhLuan: comment,
+        rate: star * 2,
+        dateTime: currTime,
+      },
+    });
+    setComment("");
+    setStar(0);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -54,37 +109,6 @@ const Details = () => {
   }, []);
 
   return (
-    // <div
-    //   style={{
-    //     background: "url(https://picsum.photos/1000)",
-
-    //     minHeight: "100vh",
-    //   }}
-    // >
-    //   <CustomCard
-    //     style={{ paddingTop: "150px", minHeight: "100vh" }}
-    //     effectColor="#C780FF" // required
-    //     color="#14AEFF" // default color is white
-    //     blur={20} // default blur value is 10px
-    //     borderRadius={0} // default border radius value is 10px
-    //   >
-    //     <div className="Details-film">
-    //       <div className="grid grid-cols-12">
-    //         <div className="col-span-4 col-start-4">
-    //           <div className="grid-cols-2 grid">
-    //             <img src="https://picsum.photos/1000" alt="" />
-
-    //             <div className="content-detail ml-2">
-    //               <div>Ten</div>
-    //               <div>Mo ta</div>
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </CustomCard>
-    // </div>
-
     <>
       <div className="movie-card">
         <div className="img-movie">
@@ -220,9 +244,130 @@ const Details = () => {
               ),
             };
           } else if (i === 1) {
-            content = { label: item, key: id, children: <>SSS</> };
+            content = {
+              label: item,
+              key: id,
+              children: (
+                <div
+                  style={{ width: "80%", margin: "auto", textAlign: "center" }}
+                >
+                  <div className="font-bold text-2xl">{filmDetail.tenPhim}</div>
+                  <div className="text-xl font-semibold">
+                    {moment(filmDetail.ngayChieuGioChieu).format("DD/MM/YYYY")}
+                  </div>
+                  <div
+                    className="mt-2"
+                    style={{ width: "60%", margin: "auto" }}
+                  >
+                    {filmDetail.moTa}
+                  </div>
+                </div>
+              ),
+            };
           } else {
-            content = { label: item, key: id, children: <>SSS</> };
+            content = {
+              label: item,
+              key: id,
+              children: (
+                <div>
+                  <div classname="card">
+                    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+                      <div className="p-10">
+                        <div className="bg-white max-w-xl rounded-2xl px-10 py-8 shadow-lg hover:shadow-2xl transition duration-500">
+                          <div className="w-14 h-14 bg-yellow-500 rounded-full flex items-center justify-center font-bold text-white">
+                            {user.hoTen.slice(0, 1)}
+                          </div>
+                          <div className="mt-4">
+                            <h1 className="text-lg text-gray-700 font-semibold hover:underline cursor-pointer">
+                              {filmDetail.tenPhim}
+                            </h1>
+                            <div className="flex mt-2">
+                              <Rate
+                                allowHalf
+                                onChange={handleChangeStar}
+                                value={star}
+                              />
+                            </div>
+                            <div className="mt-4 danhGia text-md text-gray-600 flex items-center justify-between">
+                              <textarea
+                                className={`${contentStyle["textAre"]}`}
+                                style={{
+                                  paddingLeft: "10px",
+                                  border: "1px solid black",
+                                  width: "80%",
+                                  borderRadius: "8px",
+                                }}
+                                placeholder="Bạn nghĩ gì?"
+                                name="comment"
+                                value={comment}
+                                onChange={handleChange}
+                              ></textarea>
+
+                              <div
+                                className="
+                              p-6 bg-yellow-400 rounded-full h-4 w-4 flex items-center justify-center text-2xl text-white  shadow-lg cursor-pointer
+                              "
+                                onClick={(e) => {
+                                  handleSubmit(e);
+                                }}
+                              >
+                                +
+                              </div>
+                            </div>
+
+                            {/* ARRR REVIEW */}
+                            {dataComment.map((item, index) => {
+                              return (
+                                <>
+                                  <div
+                                    key={index}
+                                    className="flex justify-between items-center"
+                                  >
+                                    <div className="mt-4 flex items-center space-x-4 py-6">
+                                      <div>
+                                        <div
+                                          className="w-12 h-12 rounded-full bg-black"
+                                          style={{ position: "relative" }}
+                                        >
+                                          <span
+                                            style={{
+                                              position: "absolute",
+                                              top: "50%",
+                                              left: "50%",
+                                              transform: `translate(${-50}%,${-50}%)`,
+                                              zIndex: 10,
+                                              color: "gold",
+                                            }}
+                                          >
+                                            {" "}
+                                            {item.hoTen.slice(0, 1)}
+                                          </span>
+                                        </div>
+                                      </div>
+                                      <div className="text-sm font-semibold">
+                                        {item.email}
+                                        <span className="font-normal">
+                                          {" "}
+                                          {item.dateTime}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <Rate allowHalf value={item.rate / 2} />
+                                  </div>
+                                  <div>{item.binhLuan}</div>
+                                </>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ),
+            };
           }
           return content;
         })}

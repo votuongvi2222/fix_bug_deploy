@@ -78,7 +78,7 @@ const Header = () => {
             className="flex items-center p-2"
           >
             <img
-              src="./image/LogoPage.jpg"
+              src="/image/logoTixLoading.png"
               alt=""
               // className="rounded-full"
               style={{ width: 150, height: 70, objectFit: "cover" }}
@@ -128,7 +128,7 @@ const Header = () => {
               <Select
                 defaultValue="vi"
                 style={{
-                  width: 120,
+                  width: 60,
                 }}
                 onChange={handleChange}
                 options={[
@@ -146,7 +146,6 @@ const Header = () => {
                   },
                 ]}
               />
-              ;
             </div>
           </div>
           <button className="p-4 lg:hidden">

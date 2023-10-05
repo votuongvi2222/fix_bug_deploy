@@ -8,9 +8,11 @@ import {
   LOGIN,
   REGISTER,
   TIM_KIEM_NGUOI_DUNG,
+  UP_COMMENT,
   USER_CURRENT,
 } from "../../actions/types/AuthType";
 import { ThongTinUser } from "../../../_core/models/ThongTinUser";
+import data from "../../../assets/dataRate.json";
 
 let userDangNhap = {};
 if (localStorage.getItem(USER_LOGIN)) {
@@ -22,6 +24,7 @@ const stateDefault = {
   lstUser: [],
   userEdit: {},
   lstUserDefault: [],
+  dataComment: data.dataRate,
 };
 
 export const AuthReducer = (state = stateDefault, action) => {
@@ -62,6 +65,23 @@ export const AuthReducer = (state = stateDefault, action) => {
     }
     case TIM_KIEM_NGUOI_DUNG: {
       return { ...state, lstUser: action.dataUser };
+    }
+    case UP_COMMENT: {
+      let dataNew = [...state.dataComment];
+      // console.log({ dataNew });
+      // console.log(action.userCurrent.email === "lee123@gmail.com");
+      let findIndex = dataNew.findIndex((item) => {
+        // console.log("EMAIL", action.userCurrent);
+
+        return item.email === action.userCurrent.email;
+      });
+      // console.log("FIND", findIndex);
+      if (findIndex === -1) {
+        dataNew.unshift(action.userCurrent);
+      } else {
+        dataNew[findIndex] = action.userCurrent;
+      }
+      return { ...state, dataComment: dataNew };
     }
     default:
       return { ...state };

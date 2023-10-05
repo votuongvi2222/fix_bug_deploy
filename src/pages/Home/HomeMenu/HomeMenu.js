@@ -62,7 +62,7 @@ const HomeMenu = (props) => {
                                 // console.log("HOME MENU", phim);
                                 return (
                                   <Fragment key={index}>
-                                    <div className="film-content flex mb-2 border-b-2 pb-2 border-gray-600">
+                                    <div className="film-content flex mb-2 border-b-2 pb-2 border-gray-700">
                                       <div className="img">
                                         <img
                                           className="object-cover"

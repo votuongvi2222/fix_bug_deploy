@@ -1,7 +1,7 @@
 .slick-prev:before,
 .slick-next:before {
-    color: #ffed48 !important;
-    font-size: 2.8rem !important;
+    color: #ff8a65 !important;
+    font-size: 2.6rem !important;
     background-color: transparent !important;
     /* z-index: 10; */
 }

@@ -93,149 +93,152 @@ const AddNewUser = () => {
     </Form.Item>
   );
   return (
-    <Form
-      labelCol={{
-        span: 6,
-      }}
-      wrapperCol={{
-        span: 16,
-      }}
-      layout="horizontal"
-      // onValuesChange={onFormLayoutChange}
+    <>
+      <div className="text-center text-2xl mb-2 font-bold">Thêm người dùng</div>
+      <Form
+        labelCol={{
+          span: 6,
+        }}
+        wrapperCol={{
+          span: 16,
+        }}
+        layout="horizontal"
+        // onValuesChange={onFormLayoutChange}
 
-      style={{
-        maxWidth: "80%",
-      }}
-    >
-      <Form.Item
-        label="Tai khoan"
-        name="taiKhoan"
-        rules={[
-          {
-            required: true,
-            message: "Please input your name account",
-            whitespace: true,
-          },
-        ]}
+        style={{
+          maxWidth: "80%",
+        }}
       >
-        <Input
+        <Form.Item
+          label="Tài khoản"
           name="taiKhoan"
-          value={formik.values.taiKhoan}
-          onChange={formik.handleChange}
-        />
-      </Form.Item>
-      <Form.Item
-        name="matKhau"
-        label="Mat Khau"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password",
-          },
-        ]}
-      >
-        <Input.Password
-          name="matKhau"
-          value={formik.values.matKhau}
-          onChange={formik.handleChange}
-        />
-      </Form.Item>
-
-      <Form.Item
-        name="email"
-        label="Email"
-        rules={[
-          {
-            type: "email",
-            message: "The input is not valid Email",
-          },
-          {
-            required: true,
-            message: "Please input your Email",
-          },
-        ]}
-      >
-        <Input
-          name="email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-        />
-      </Form.Item>
-
-      <Form.Item
-        name="soDt"
-        label="So dien thoai"
-        rules={[
-          {
-            required: true,
-            message: "Please input your phone number!",
-          },
-          {
-            pattern: /^[0-9]{8,10}$/, // Add this pattern validation for 8 to 10 digits
-            message: "Invalid phone number. Please enter 8 to 10 digits.",
-          },
-        ]}
-      >
-        <Input
-          addonBefore={prefixSelector}
-          name="soDt"
-          value={formik.values.soDt}
-          onChange={formik.handleChange}
-        />
-      </Form.Item>
-
-      <Form.Item
-        name="maLoaiNguoiDung"
-        label="LoaiKH"
-        rules={[
-          {
-            required: true,
-            message: "Please select user type!",
-          },
-        ]}
-      >
-        <Select
-          value={formik.values.maLoaiNguoiDung}
-          style={{
-            width: "80%",
-          }}
-          onChange={(value) => {
-            formik.setFieldValue("maLoaiNguoiDung", value);
-          }}
-          options={[
+          rules={[
             {
-              value: "KhachHang",
-              label: "KhachHang",
-            },
-            {
-              value: "QuanTri",
-              label: "QuanTri",
+              required: true,
+              message: "Please input your name account",
+              whitespace: true,
             },
           ]}
-        />
-      </Form.Item>
+        >
+          <Input
+            name="taiKhoan"
+            value={formik.values.taiKhoan}
+            onChange={formik.handleChange}
+          />
+        </Form.Item>
+        <Form.Item
+          name="matKhau"
+          label="Mật khẩu"
+          rules={[
+            {
+              required: true,
+              message: "Please input your password",
+            },
+          ]}
+        >
+          <Input.Password
+            name="matKhau"
+            value={formik.values.matKhau}
+            onChange={formik.handleChange}
+          />
+        </Form.Item>
 
-      <Form.Item
-        name="hoTen"
-        rules={[
-          {
-            required: true,
-            message: "Please input your name",
-          },
-        ]}
-        placeholder="Ho ten"
-        label="Ho Ten"
-      >
-        <Input
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[
+            {
+              type: "email",
+              message: "The input is not valid Email",
+            },
+            {
+              required: true,
+              message: "Please input your Email",
+            },
+          ]}
+        >
+          <Input
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="soDt"
+          label="Số điện thoại"
+          rules={[
+            {
+              required: true,
+              message: "Please input your phone number!",
+            },
+            {
+              pattern: /^[0-9]{8,10}$/, // Add this pattern validation for 8 to 10 digits
+              message: "Invalid phone number. Please enter 8 to 10 digits.",
+            },
+          ]}
+        >
+          <Input
+            addonBefore={prefixSelector}
+            name="soDt"
+            value={formik.values.soDt}
+            onChange={formik.handleChange}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="maLoaiNguoiDung"
+          label="Loại khách hàng"
+          rules={[
+            {
+              required: true,
+              message: "Please select user type!",
+            },
+          ]}
+        >
+          <Select
+            value={formik.values.maLoaiNguoiDung}
+            style={{
+              width: "80%",
+            }}
+            onChange={(value) => {
+              formik.setFieldValue("maLoaiNguoiDung", value);
+            }}
+            options={[
+              {
+                value: "KhachHang",
+                label: "KhachHang",
+              },
+              {
+                value: "QuanTri",
+                label: "QuanTri",
+              },
+            ]}
+          />
+        </Form.Item>
+
+        <Form.Item
           name="hoTen"
-          onChange={formik.handleChange}
-          value={formik.values.hoTen}
-        />
-      </Form.Item>
-      <Form.Item label="Chuc nang">
-        <Button onClick={formik.handleSubmit}>Add user</Button>
-      </Form.Item>
-    </Form>
+          rules={[
+            {
+              required: true,
+              message: "Please input your name",
+            },
+          ]}
+          placeholder="Ho ten"
+          label="Họ tên"
+        >
+          <Input
+            name="hoTen"
+            onChange={formik.handleChange}
+            value={formik.values.hoTen}
+          />
+        </Form.Item>
+        <Form.Item label="Chức năng">
+          <Button onClick={formik.handleSubmit}>Thêm</Button>
+        </Form.Item>
+      </Form>
+    </>
   );
 };
 export default AddNewUser;

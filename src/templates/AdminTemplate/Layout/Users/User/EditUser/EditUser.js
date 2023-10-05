@@ -25,6 +25,27 @@ const EditUser = ({ user }) => {
   const navigate = useNavigate();
   const { userEdit } = useSelector((state) => state.AuthReducer);
 
+  // CHECk RONG
+  const isEmtyInput = (value) => {
+    const regex = /^$/;
+
+    return regex.test(value);
+  };
+
+  // EMAIL
+  const isValidEmail = (email) => {
+    // You can implement your email validation logic here
+    // For a basic check, you can use a regular expression
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+    // Test the email against the regex
+    return emailRegex.test(email);
+  };
+
+  const isValidPhone = (phone) => {
+    const phoneRegex = /^[0-9]{8,10}$/;
+    return phoneRegex.test(phone);
+  };
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -38,7 +59,31 @@ const EditUser = ({ user }) => {
     },
     onSubmit: async (value, { resetForm }) => {
       // console.log(value);
+      // VILIdate
+
       try {
+        if (
+          isEmtyInput(value.taiKhoan) ||
+          isEmtyInput(value.matKhau) ||
+          isEmtyInput(value.email) ||
+          isEmtyInput(value.soDt) ||
+          isEmtyInput(value.maNhom) ||
+          isEmtyInput(value.maLoaiNguoiDung) ||
+          isEmtyInput(value.hoTen)
+        ) {
+          toast.error("Có phần tử rỗng");
+          return;
+        }
+        if (!isValidEmail(value.email)) {
+          toast.error("Vui lòng nhập đúng email");
+
+          return;
+        }
+        if (!isValidPhone(value.soDt)) {
+          // console.log("vô phone");
+          toast.error("Vui lòng nhập số đt từ 8-10 chữ số");
+          return;
+        }
         const res = await postCapNhapThongTinNguoiDung(
           value.taiKhoan,
           value.matKhau,
@@ -59,12 +104,15 @@ const EditUser = ({ user }) => {
       }
     },
   });
+
   return (
     <>
       <h1 className="text-2xl font-bold text-center w-full mb-2">
         UPDATE USER
       </h1>
+
       <Form
+        onFinish={formik.handleSubmit}
         labelCol={{
           span: 6,
         }}
@@ -78,7 +126,16 @@ const EditUser = ({ user }) => {
           maxWidth: "80%",
         }}
       >
-        <Form.Item label="Tai khoan">
+        <Form.Item
+          label="Tài khoản"
+          rules={[
+            {
+              required: true,
+              message: "Please input your name account",
+              whitespace: true,
+            },
+          ]}
+        >
           <Input
             name="taiKhoan"
             value={formik.values.taiKhoan}
@@ -86,7 +143,7 @@ const EditUser = ({ user }) => {
           />
         </Form.Item>
         <Form.Item
-          label="Tai khoan"
+          label="Mật khẩu"
           rules={[
             {
               required: true,
@@ -107,10 +164,6 @@ const EditUser = ({ user }) => {
             {
               type: "email",
               message: "The input is not valid Email",
-            },
-            {
-              required: true,
-              message: "Please input your Email",
             },
           ]}
         >
@@ -175,7 +228,7 @@ const EditUser = ({ user }) => {
           />
         </Form.Item>
         <Form.Item label="Chuc nang">
-          <Button onClick={formik.handleSubmit}>Update user</Button>
+          <Button htmlType="submit">Update user</Button>
         </Form.Item>
       </Form>
     </>

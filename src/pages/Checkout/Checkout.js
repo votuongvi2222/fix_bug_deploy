@@ -85,16 +85,23 @@ const Checkout = () => {
   return (
     <>
       <div
-        className="header_checkout flex justify-between items-center text-white"
+        className="header_checkout flex justify-between items-center text-white pt-2"
         style={{ backgroundColor: "#242333" }}
       >
-        <HomeOutlined
-          style={{ fontSize: "40px", cursor: "pointer" }}
-          className="ml-2"
+        <div
+          className="backHome"
+          style={{ width: 160, height: 60, cursor: "pointer" }}
           onClick={() => {
             navigate("/");
           }}
-        />
+        >
+          <img
+            className="object-cover"
+            src="/image/LogoPage.jpg"
+            alt=""
+            style={{ width: "100%", height: 60 }}
+          />
+        </div>
       </div>
       <Tabs
         className="antsCheckout"
@@ -116,8 +123,8 @@ const Checkout = () => {
                       <CountdownTime param={param.id} />
                       {cusTomer}
                     </div>
-                    <div className="Checkout-content">
-                      <div className="datGhe">
+                    <div className="Checkout-content grid grid-cols-12">
+                      <div className="datGhe col-span-8">
                         <div className="container1">
                           <div className="screen"></div>
                           <div className="text-screen text-gray-400">
@@ -182,10 +189,7 @@ const Checkout = () => {
                           </div>
                         </div>
                       </div>
-                      <div
-                        className="muaVe flex flex-col justify-between border-solid border-3 border-sky-500"
-                        style={{ position: "fixed", top: "0", right: 0 }}
-                      >
+                      <div className="muaVe col-span-4  border-solid border-3 border-sky-500">
                         <div className="info-Ve ">
                           <p className="total border-b-2 text-green-500 text-center text-2xl border-gray-400 py-3">
                             {danhSachVeDangDat
@@ -244,10 +248,10 @@ const Checkout = () => {
                           </div>
                           <div className="phone-customer border-b-2 border-gray-400 py-3">
                             <p className="text-white">Phone</p>
-                            <p className="text-white">123456</p>
+                            <p className="text-white">{userLogin?.soDT}</p>
                           </div>
                         </div>
-                        <div className="btn-datVe">
+                        <div className="btn-CheckOut">
                           <button
                             onClick={() => {
                               dispatch(
@@ -263,8 +267,7 @@ const Checkout = () => {
                                 navigate("/checkout/result");
                               }
                             }}
-                            className="btnDatVe btn btn-success w-full"
-                            style={{ position: "absolute", bottom: "-25%" }}
+                            className="btnCheckOut "
                           >
                             ĐẶT VÉ
                           </button>

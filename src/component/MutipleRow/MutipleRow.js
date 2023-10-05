@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { Component, useEffect, useRef } from "react";
 import Slider from "react-slick";
 import styleContent from "./MutipleRow.module.css";
 import Films from "../Films/Films";
@@ -51,6 +51,13 @@ const MultipleRows = (props) => {
   const [htrCurrent, setHtrCurrent] = useState("");
   const [cumRapCurrent, setCumRapCurrent] = useState("");
   const [lichCurrent, setLichCurrent] = useState("");
+  const [suatChieuCurrent, setSuatChieuCurrent] = useState("");
+
+  // ref
+  const refHtr = useRef(null);
+  const refCumRap = useRef(null);
+  const refLich = useRef(null);
+  const refSuatChieu = useRef(null);
 
   // option
   const { Option } = Select;
@@ -65,15 +72,17 @@ const MultipleRows = (props) => {
   // Lay lich chieu
 
   const { lichChieu } = useSelector((state) => state.ManagerCinema);
-  console.log({ lichChieu });
+  // console.log({ lichChieu });
 
   // DAT STATE CUMRAP
 
   const settings = {
     className: "center slider  ",
+
     // centerMode: true,
     infinite: true,
     centerPadding: "60px",
+
     slidesToShow: 4,
     speed: 500,
     rows: 2,
@@ -115,11 +124,12 @@ const MultipleRows = (props) => {
 
   const onChangeFilm = async (value) => {
     // Lay thong tin lich chieu
-    setFilmCurrent(value[0]);
 
     setCumRapCurrent("");
     setHtrCurrent("");
     setLichCurrent("");
+    setSuatChieuCurrent("");
+    setFilmCurrent(value[0]);
     try {
       const res = await getThongTinLichChieu(value[0]);
       if (res && res.statusCode === 200) {
@@ -139,6 +149,8 @@ const MultipleRows = (props) => {
     // const arrCumRapChieu = _.map(lichChieu?.heThongRapChieu, (item) =>
     //   _.map(item, "cumRapChieu")
     // );
+
+    refHtr.current.blur();
   };
   // Phim CURRENT
 
@@ -164,12 +176,12 @@ const MultipleRows = (props) => {
 
   // CUM RAP
   const onChangeCumRap = (value) => {
-    console.log(value);
+    // console.log(value);
 
     let item = htrCurrent?.cumRapChieu?.find((item) => item.maCumRap === value);
     if (item !== undefined) {
       setCumRapCurrent(item);
-      console.log("CUM RAP", item);
+      // console.log("CUM RAP", item);
     }
   };
 
@@ -183,14 +195,14 @@ const MultipleRows = (props) => {
   };
 
   const onchangeLichChieu = (value) => {
-    console.log(value);
+    // console.log(value);
 
     let item = cumRapCurrent?.lichChieuPhim?.find(
       (lich) => lich.maLichChieu === value
     );
     if (item !== undefined) {
       setLichCurrent(item);
-      console.log("LICH CURRENT", item);
+      // console.log("LICH CURRENT", item);
     }
   };
 
@@ -205,16 +217,25 @@ const MultipleRows = (props) => {
 
   // SUAT CHIEU
   const onchangeSuatChieu = (value) => {
-    console.log(value);
+    // console.log(value);
+    setSuatChieuCurrent(value);
+    // console.log({ lichCurrent });
   };
   const reverseSuatChieu = () => {
-    return {};
+    if (lichCurrent !== "") {
+      return {
+        value: lichCurrent?.maLichChieu,
+        label: moment(lichCurrent?.ngayChieuGioChieu).format("hh:mm A"),
+      };
+    }
+    return {
+      label: <>NO DATA</>,
+    };
   };
   return (
     <>
       <div className="flex justify-center mb-4">
         <Cascader
-          width={200}
           defaultValue={<>Chose Film</>}
           allowClear={false}
           options={conversListFilm()}
@@ -225,7 +246,8 @@ const MultipleRows = (props) => {
 
         <Select
           onChange={onChangeHeThongRap}
-          defaultValue={htrCurrent}
+          defaultValue={<>Chose he thong rap</>}
+          ref={refHtr}
           style={{
             margin: "0 20px",
             width: 200,
@@ -237,7 +259,8 @@ const MultipleRows = (props) => {
 
         <Select
           onChange={onChangeCumRap}
-          defaultValue={cumRapCurrent}
+          defaultValue={<>Chose Cum Rap</>}
+          ref={refCumRap}
           style={{
             margin: "0 20px",
             width: 200,
@@ -249,7 +272,8 @@ const MultipleRows = (props) => {
 
         <Select
           onChange={onchangeLichChieu}
-          defaultValue={lichCurrent}
+          defaultValue={<>Chose Lich Chieu</>}
+          ref={refLich}
           style={{
             margin: "0 20px",
             width: 200,
@@ -261,34 +285,21 @@ const MultipleRows = (props) => {
 
         <Select
           onChange={onchangeSuatChieu}
-          // defaultValue={}
+          defaultValue={<>Chose Suat Chieu</>}
+          ref={refSuatChieu}
           style={{
             margin: "0 20px",
             width: 200,
           }}
           // value={}
-          options={[
-            lichCurrent !== ""
-              ? {
-                  value: lichCurrent.maLichChieu,
-                  label: (
-                    <>
-                      {moment(lichCurrent.ngayChieuGioChieu).format("hh:mm A")}
-                    </>
-                  ),
-                }
-              : {
-                  value: "",
-                  label: "",
-                },
-          ]}
+          options={[reverseSuatChieu()]}
           optionLabelProp="label"
         />
         <button
           onClick={() => {
             nagivate(`/checkout/${lichCurrent?.maLichChieu}`);
           }}
-          disabled={lichCurrent === "" ? true : false}
+          disabled={suatChieuCurrent === "" ? true : false}
           className={`${styleContent["btn-muaVe"]} ${styleContent["btn-muaVes"]}
             `}
         >
@@ -324,11 +335,13 @@ const MultipleRows = (props) => {
         <Slider {...settings}>
           {props.listFilm.slice(0, 40).map((item, index) => {
             return (
-              <div
-                className={`${styleContent["item-width"]} text-right`}
-                key={index}
-              >
-                <Films film={item} />
+              <div>
+                <div
+                  className={`${styleContent["item-width"]} sss text-right`}
+                  key={index}
+                >
+                  <Films film={item} />
+                </div>
               </div>
             );
           })}

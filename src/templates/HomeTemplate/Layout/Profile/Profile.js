@@ -11,6 +11,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 const Profile = () => {
+  const userLogin = useSelector((state) => state.AuthReducer.user);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,12 +40,28 @@ const Profile = () => {
   ];
   return (
     <div className="profile flex items-center mr-2">
-      <img
-        className="rounded-full"
-        style={{ width: 50, height: 50 }}
-        src="https://i.pravatar.cc/300"
-        alt=""
-      />
+      <div
+        className="avatart rounded-full "
+        style={{
+          position: "relative",
+          backgroundColor: "green",
+          lineHeight: "48px",
+          width: 50,
+          height: 50,
+        }}
+      >
+        <span
+          className="font-bold"
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: `translate(${-50}%,${-50}%)`,
+          }}
+        >
+          {userLogin?.hoTen.slice(0, 1)}
+        </span>
+      </div>
       <Dropdown
         placement="bottomRight"
         menu={{

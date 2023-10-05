@@ -69,7 +69,7 @@ const App = () => {
     getItem(
       <div
         onClick={() => {
-          navigate("/admin/dashboard");
+          navigate("/admin");
         }}
       >
         Dash Board
@@ -78,14 +78,14 @@ const App = () => {
       <PieChartOutlined />
     ),
 
-    getItem("User", "sub1", <UserOutlined />, [
+    getItem("Film", "sub1", <FileOutlined />, [
       getItem(
         <div
           onClick={() => {
             navigate("/admin/filmAdmin");
           }}
         >
-          Film
+          List Film
         </div>,
         "3"
       ),
@@ -95,7 +95,7 @@ const App = () => {
             navigate("/admin/addnew");
           }}
         >
-          Add New
+          Add Film
         </div>,
         "4"
       ),
@@ -111,9 +111,17 @@ const App = () => {
         </div>,
         "listUsers"
       ),
-      getItem("Team 2", "8"),
+      getItem(
+        <div
+          onClick={() => {
+            navigate("/admin/addNewUser");
+          }}
+        >
+          Add User
+        </div>,
+        "Add User"
+      ),
     ]),
-    getItem("Files", "9", <FileOutlined />),
   ];
 
   return (
@@ -123,12 +131,16 @@ const App = () => {
         className="flex justify-between items-center w-full p-3"
       >
         <div
-          className="text-white text-2xl ml-2"
+          className="text-white text-2xl ml-2 cursor-pointer"
           onClick={() => {
-            navigate("/admin");
+            navigate("/");
           }}
         >
-          LOGO MOVIE
+          <img
+            src="/image/logoTixLoading.png"
+            style={{ width: 80, height: 60 }}
+            alt="logo"
+          />
         </div>
         <div className="text-white">
           <Profile />
@@ -143,12 +155,13 @@ const App = () => {
             items={items}
           />
         </Sider>
-        <Layout>
+        <Layout style={{ paddingBottom: "20px" }}>
           <Content
             style={{
               margin: "24px 16px",
               padding: 24,
               minHeight: 280,
+
               // background: colorBgContainer,
             }}
           >
