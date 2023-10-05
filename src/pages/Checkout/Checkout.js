@@ -52,7 +52,7 @@ const Checkout = () => {
     window.scrollTo(0, 0);
   }, []);
   const { thongTinPhim, danhSachGhe } = heThongPhongVe;
-  console.log("HE THONG PHONG VE", heThongPhongVe);
+  // console.log("HE THONG PHONG VE", heThongPhongVe);
   const { isLoading } = useSelector((state) => state.LoadingReducer);
   // console.log(thongTinPhim);
   // console.log("DANG CHON", danhSachVeDangDat);
@@ -96,10 +96,10 @@ const Checkout = () => {
           }}
         >
           <img
-            className="object-cover"
-            src="/image/LogoPage.jpg"
+            className="object-cover ml-2"
+            src="/image/logoTixLoading.png"
             alt=""
-            style={{ width: "100%", height: 60 }}
+            style={{ width: 80, height: 60 }}
           />
         </div>
       </div>

@@ -16,7 +16,7 @@ const Header = () => {
   // LAY USER DANG NHAP
   const userLOGIN = useSelector((state) => state.AuthReducer.user);
 
-  console.log(userLOGIN);
+  // console.log(userLOGIN);
   const renderCustomer = () => {
     if (_.isEmpty(userLOGIN)) {
       return (
@@ -81,7 +81,7 @@ const Header = () => {
               src="/image/logoTixLoading.png"
               alt=""
               // className="rounded-full"
-              style={{ width: 150, height: 70, objectFit: "cover" }}
+              style={{ width: 80, height: 60, objectFit: "cover" }}
             />
           </a>
           <ul className="items-stretch hidden space-x-3 lg:flex">

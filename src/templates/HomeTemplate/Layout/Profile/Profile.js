@@ -18,7 +18,15 @@ const Profile = () => {
   const items = [
     {
       key: "1",
-      label: <p>{t("thongTinTk")}</p>,
+      label: (
+        <p
+          onClick={() => {
+            navigate("/taikhoan");
+          }}
+        >
+          {t("thongTinTk")}
+        </p>
+      ),
     },
 
     {

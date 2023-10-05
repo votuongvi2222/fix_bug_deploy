@@ -1,10 +1,12 @@
 import { Login } from "iconsax-react";
-import { USER_LOGIN } from "../../../types/configType";
+import { GP00, USER_LOGIN } from "../../../types/configType";
 import {
+  CAP_NHAT_THANH_CONG,
   DANG_NHAP_THANH_CONG,
   DANG_NHAP_THAT_BAI,
   DANG_XUAT,
   LAY_DANH_SACH_USER,
+  LAY_THONG_TIN_TAI_KHOAN,
   LOGIN,
   REGISTER,
   TIM_KIEM_NGUOI_DUNG,
@@ -13,11 +15,17 @@ import {
 } from "../../actions/types/AuthType";
 import { ThongTinUser } from "../../../_core/models/ThongTinUser";
 import data from "../../../assets/dataRate.json";
+import { LAY_THONG_TIN_PHIM } from "../../actions/types/FilmType";
 
 let userDangNhap = {};
 if (localStorage.getItem(USER_LOGIN)) {
   userDangNhap = JSON.parse(localStorage.getItem(USER_LOGIN));
 }
+
+// let access = "";
+// if (localStorage.getItem("accessToken")) {
+//   access = JSON.parse(localStorage.getItem("accessToken"));
+// }
 const stateDefault = {
   user: userDangNhap,
   soDT: null,
@@ -25,6 +33,7 @@ const stateDefault = {
   userEdit: {},
   lstUserDefault: [],
   dataComment: data.dataRate,
+  thongTinTaiKhoan: {},
 };
 
 export const AuthReducer = (state = stateDefault, action) => {
@@ -40,6 +49,7 @@ export const AuthReducer = (state = stateDefault, action) => {
         "accessToken",
         JSON.stringify(action.userLogin.accessToken)
       );
+      console.log(state.accessToken);
       return {
         ...state,
         user: action.userLogin,
@@ -83,6 +93,32 @@ export const AuthReducer = (state = stateDefault, action) => {
       }
       return { ...state, dataComment: dataNew };
     }
+    case LAY_THONG_TIN_TAI_KHOAN: {
+      return { ...state, thongTinTaiKhoan: action.thongTinTaiKhoan };
+    }
+
+    case CAP_NHAT_THANH_CONG: {
+      let userDN = { ...state.user };
+
+      // GIU LAI ACCESS TOKEN
+      userDN = {
+        ...userDN,
+        taiKhoan: action.userUpdate.taiKhoan,
+        matKhau: action.userUpdate.matKhau,
+        email: action.userUpdate.email,
+        hoTen: action.userUpdate.hoTen,
+        soDT: action.userUpdate.soDT,
+        maNhom: GP00,
+        loaiNguoiDung:
+          action.userUpdate.loaiNguoiDung === "QuanTri"
+            ? "Quản trị"
+            : "Khách hàng",
+      };
+      localStorage.removeItem("USER_LOGIN");
+      localStorage.setItem(USER_LOGIN, JSON.stringify(userDN));
+      return { ...state, user: userDN };
+    }
+
     default:
       return { ...state };
   }

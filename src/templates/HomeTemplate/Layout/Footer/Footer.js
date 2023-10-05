@@ -20,10 +20,10 @@ const Footer = (props) => {
             >
               <div
                 className=" text-center rounded-full "
-                style={{ width: 150, height: 50 }}
+                style={{ width: 80, height: 60 }}
               >
                 <img
-                  style={{ width: 150, height: 50, objectFit: "cover" }}
+                  style={{ width: 80, height: 60, objectFit: "cover" }}
                   src="/image/logoTixLoading.png"
                   alt=""
                 />

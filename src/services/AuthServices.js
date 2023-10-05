@@ -93,3 +93,32 @@ export const getTimKiemNguoiDung = (tuKhoa) => {
       url
   );
 };
+
+export const postThongTinTaiKhoan = () => {
+  return axios.post(
+    "https://movieapi.cyberlearn.vn/api/QuanLyNguoiDung/ThongTinTaiKhoan"
+  );
+};
+
+export const putCapNhatThongTinNguoiDung = (
+  taiKhoan,
+  matKhau,
+  email,
+  soDt,
+  maNhom,
+  maLoaiNguoiDung,
+  hoTen
+) => {
+  return axios.put(
+    "https://movieapi.cyberlearn.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
+    {
+      taiKhoan,
+      matKhau,
+      email,
+      soDt,
+      maNhom,
+      maLoaiNguoiDung,
+      hoTen,
+    }
+  );
+};

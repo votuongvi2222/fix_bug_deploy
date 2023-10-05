@@ -4,11 +4,13 @@ import {
   postLogin,
   postRegister,
   postThemNguoiDung,
+  postThongTinTaiKhoan,
 } from "../../services/AuthServices";
 import {
   DANG_NHAP_THANH_CONG,
   DANG_NHAP_THAT_BAI,
   LAY_DANH_SACH_USER,
+  LAY_THONG_TIN_TAI_KHOAN,
   LOGIN,
   REGISTER,
   TIM_KIEM_NGUOI_DUNG,
@@ -147,6 +149,24 @@ export const getTimKiemNguoiDungAction = (tuKhoa) => {
       }
     } catch (error) {
       console.log("ERROR", error);
+    }
+  };
+};
+
+export const postThongTinTaiKhoanAction = () => {
+  return async (dispatch) => {
+    try {
+      const res = await postThongTinTaiKhoan();
+      if (res && res.statusCode === 200) {
+        dispatch({
+          type: LAY_THONG_TIN_TAI_KHOAN,
+          thongTinTaiKhoan: res.content,
+        });
+      } else {
+        console.log("LOI", res);
+      }
+    } catch (error) {
+      console.log("ERR", error);
     }
   };
 };

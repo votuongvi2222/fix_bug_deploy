@@ -21,7 +21,7 @@ const Home = () => {
       <HomeCarousel />
       <div className="container">
         <section className="text-gray-600 body-font list-Film">
-          <div className="container px-5 py-24 mx-auto">
+          <div className="container px-5 py-8 mx-auto">
             <MultipleRows listFilm={listFilm} />
           </div>
         </section>

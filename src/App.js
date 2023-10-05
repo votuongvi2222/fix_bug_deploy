@@ -27,6 +27,7 @@ import ListUser from "./templates/AdminTemplate/Layout/Users/User/ListUser";
 import AddNewUser from "./templates/AdminTemplate/Layout/Users/User/AddNewUser/AddNewUser";
 import EditUser from "./templates/AdminTemplate/Layout/Users/User/EditUser/EditUser";
 import DeleteUser from "./templates/AdminTemplate/Layout/Users/DeleteUser/DeleteUser";
+import InfoAccount from "./pages/InfoAccount/InfoAccount";
 function App() {
   return (
     <div className="App">
@@ -37,6 +38,7 @@ function App() {
           <Route path="contact" element={<Contact />} />
           <Route path="news" element={<News />} />
           <Route path="/detail/:id" element={<Details />} />
+          <Route path="/taikhoan" element={<InfoAccount />} />
         </Route>
         <Route path="/user" element={<UserTemplate />}>
           <Route path="login" element={<Login />} />

@@ -43,9 +43,10 @@ const Details = () => {
       currentdate.getSeconds();
     setCurrentTime(datetime);
   }, []);
+  // DATA COMMENT JSON
   const { dataComment } = useSelector((state) => state.AuthReducer);
 
-  console.log({ dataComment });
+  // console.log({ dataComment });
   const [star, setStar] = useState(0);
   // Binh luan
   const [comment, setComment] = useState("");
@@ -216,7 +217,7 @@ const Details = () => {
                                             key={index}
                                           >
                                             <NavLink
-                                              className="item-lichChieu"
+                                              className={`${contentStyle["item-hour"]}`}
                                               to={`/checkout/${lich.maLichChieu}`}
                                             >
                                               {moment(
